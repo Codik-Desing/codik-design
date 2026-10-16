@@ -978,6 +978,11 @@ function Contact() {
             <span>projeto personalizado</span>
             <span>publicação incluída no planejamento</span>
           </div>
+          {studio.email && (
+            <a className="contact-direct-link" href={`mailto:${studio.email}`}>
+              Fale com a equipe: {studio.email} <ArrowUpRight size={16} />
+            </a>
+          )}
           {studio.whatsapp && (
             <a
               className="contact-direct-link"
