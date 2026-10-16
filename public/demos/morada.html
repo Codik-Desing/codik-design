@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>morada — Arquitetura | Modelo CODIK DESIGN</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./demo-common.css" />
+    <style>
+      body {
+        background: #f4f1eb;
+        color: #262c27;
+        font-family: "DM Sans", sans-serif;
+      }
+      header {
+        height: 94px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+      }
+      .logo {
+        font: 400 48px "Instrument Serif";
+      }
+      nav {
+        display: flex;
+        gap: 38px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .hero {
+        min-height: 660px;
+        height: 80vh;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        padding: 0 6% 60px;
+        gap: 50px;
+      }
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding-bottom: 55px;
+      }
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+      }
+      .hero h1 {
+        font: 400 clamp(85px, 9.3vw, 151px)/0.84 "Instrument Serif";
+        letter-spacing: -3px;
+        margin: 30px 0;
+      }
+      .hero h1 i {
+        margin-left: 30px;
+      }
+      .hero-copy p {
+        max-width: 305px;
+        line-height: 1.9;
+        font-size: 14px;
+        color: #777970;
+      }
+      .hero-photo {
+        background: #b0aaa0
+          url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1400&q=85")
+          center/cover;
+        position: relative;
+      }
+      .hero-photo span {
+        position: absolute;
+        bottom: 25px;
+        left: 25px;
+        color: #fff;
+        font-size: 10px;
+        letter-spacing: 1px;
+        text-shadow: 0 1px 9px #000;
+      }
+      .line {
+        margin: 0 6%;
+        border-top: 1px solid #b9b9ae;
+        padding-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        letter-spacing: 1.2px;
+        font-size: 10px;
+      }
+      .statement {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 150px 6%;
+      }
+      .statement h2 {
+        font: 400 clamp(53px, 6vw, 92px)/1.03 "Instrument Serif";
+        margin-top: 36px;
+      }
+      .statement h2 em {
+        color: #988d7c;
+      }
+      .projects {
+        padding: 0 6% 130px;
+      }
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        border-bottom: 1px solid #b9b9ae;
+        padding-bottom: 23px;
+      }
+      .project-header h2 {
+        font: 400 clamp(48px, 5vw, 75px) "Instrument Serif";
+        margin: 0;
+      }
+      .project-header span {
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+      .gallery {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 26px;
+        padding-top: 26px;
+      }
+      .gallery figure {
+        margin: 0;
+      }
+      .gallery img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        background: #d0c9bb;
+      }
+      .gallery figure:last-child img {
+        height: 390px;
+      }
+      .gallery figcaption {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        padding-top: 16px;
+      }
+      .contact {
+        background: #d2cabb;
+        padding: 110px 6% 145px;
+        text-align: center;
+      }
+      .contact h2 {
+        font: 400 clamp(64px, 8vw, 115px)/0.95 "Instrument Serif";
+        max-width: 900px;
+        margin: 18px auto 30px;
+      }
+      .contact a {
+        display: inline-flex;
+        border-bottom: 1px solid #242620;
+        padding-bottom: 9px;
+        font-size: 12px;
+        gap: 30px;
+      }
+      footer {
+        padding: 30px 6% 105px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+      @media (max-width: 750px) {
+        header {
+          height: 80px;
+        }
+        nav {
+          gap: 15px;
+        }
+        .hero {
+          display: flex;
+          flex-direction: column-reverse;
+          gap: 0;
+          height: auto;
+          padding: 0 5% 60px;
+        }
+        .hero-photo {
+          height: 390px;
+        }
+        .hero-copy {
+          padding: 50px 0 0;
+        }
+        .hero h1 {
+          font-size: 98px;
+          margin: 12px 0;
+        }
+        .statement {
+          padding: 85px 5%;
+        }
+        .projects {
+          padding: 0 5% 70px;
+        }
+        .gallery {
+          display: block;
+        }
+        .gallery figure {
+          margin-bottom: 35px;
+        }
+        .gallery img,
+        .gallery figure:last-child img {
+          height: 300px;
+        }
+        .contact {
+          padding: 80px 6% 120px;
+        }
+      }
+      @media (max-width: 430px) {
+        nav a:not(:last-child) {
+          display: none;
+        }
+        .hero h1 {
+          font-size: 77px;
+        }
+        .hero-photo {
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="#inicio">morada.</a>
+      <nav>
+        <a href="#essencia">O ESTÚDIO</a><a href="#projetos">PROJETOS</a
+        ><a href="#contato">CONTATO ↗</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-copy">
+          <span class="eyebrow">ARQUITETURA & INTERIORES</span>
+          <h1>Viver<br /><i>melhor.</i></h1>
+          <p>
+            Casas para morar de verdade. Espaços claros, materiais honestos e
+            projetos que fazem sentido no dia a dia.
+          </p>
+        </div>
+        <div class="hero-photo"><span>PROJETO CASA 01 / CONCEITO</span></div>
+      </section>
+      <div class="line">
+        <span>FORMA. FUNÇÃO. AFETO.</span><span>ESTÚDIO / 2026</span>
+      </div>
+      <section class="statement" id="essencia">
+        <span class="eyebrow">01 / NOSSO OLHAR</span>
+        <h2>
+          Cada espaço tem uma história. A gente ajuda a <em>contar a sua.</em>
+        </h2>
+      </section>
+      <section class="projects" id="projetos">
+        <div class="project-header">
+          <h2>Espaços em foco.</h2>
+          <span>02 / PORTFÓLIO DE REFERÊNCIA</span>
+        </div>
+        <div class="gallery">
+          <figure>
+            <img
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85"
+              alt="Interior claro contemporâneo"
+            />
+            <figcaption>
+              <span>CASA SERENA</span><span>RESIDENCIAL / CONCEITO</span>
+            </figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1000&q=85"
+              alt="Ambiente residencial contemporâneo"
+            />
+            <figcaption>
+              <span>APARTAMENTO LUZ</span><span>INTERIORES / CONCEITO</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="contact" id="contato">
+        <span class="eyebrow">03 / VAMOS CRIAR?</span>
+        <h2>Conta pra gente como você imagina seu espaço.</h2>
+        <a href="../../?modelo=morada#contato"
+          >QUERO UM SITE NESTE ESTILO <span>↗</span></a
+        >
+      </section>
+    </main>
+    <footer>
+      <span>morada / conceito de arquitetura</span
+      ><span>DEMONSTRAÇÃO: CODIK DESIGN STUDIO</span>
+    </footer>
+    <aside class="demo-dock">
+      <div>
+        <b>CODIK DESIGN / DEMO</b><small>Este é um modelo demonstrativo</small>
+      </div>
+      <a href="../../?modelo=morada#contato">Quero um site assim ↗</a>
+    </aside>
+    <script>
+      if (location.protocol === "file:") {
+        document
+          .querySelectorAll('a[href^="../../?modelo="]')
+          .forEach(
+            (a) =>
+              (a.href = a
+                .getAttribute("href")
+                .replace("../../?modelo=", "../../PREVIA.html?modelo=")),
+          );
+      }
+    </script>
+    <script>
+      (function () {
+        if (
+          !("IntersectionObserver" in window) ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        var parts = document.querySelectorAll(
+          "main>section:not(:first-child),main>div:not(:first-child)",
+        );
+        document.body.classList.add("demo-motion");
+        var o = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add("demo-seen");
+                o.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
+        );
+        parts.forEach(function (el) {
+          o.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>

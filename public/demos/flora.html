@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>floræ — Ateliê Botânico | Modelo CODIK DESIGN</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./demo-common.css" />
+    <style>
+      :root {
+        --ink: #3d3a35;
+        --rose: #ad797a;
+        --base: #f2eae3;
+      }
+      body {
+        color: var(--ink);
+        background: var(--base);
+        font-family: "DM Sans", sans-serif;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 6%;
+        border-bottom: 1px solid #bdb1aa;
+      }
+      .logo {
+        font: 400 53px "Instrument Serif";
+        letter-spacing: -2px;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        font-size: 11px;
+        letter-spacing: 0.4px;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .hero {
+        height: 700px;
+        min-height: 85vh;
+        display: grid;
+        grid-template-columns: 52% 48%;
+        padding: 0 6%;
+        gap: 4%;
+      }
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .hero-content > span,
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+        font-weight: 700;
+      }
+      .hero h1 {
+        font: 400 clamp(82px, 9vw, 145px)/0.88 "Instrument Serif";
+        letter-spacing: -2.5px;
+        margin: 24px 0;
+      }
+      .hero h1 em {
+        color: var(--rose);
+      }
+      .hero p {
+        font-size: 14px;
+        line-height: 1.9;
+        max-width: 340px;
+        color: #81746e;
+      }
+      .soft-link {
+        display: inline-flex;
+        gap: 28px;
+        align-items: center;
+        border-bottom: 1px solid #6c625c;
+        padding: 0 0 11px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 25px;
+        width: max-content;
+      }
+      .hero-image {
+        margin: 40px 0 58px;
+        background: #d5c1bc
+          url("https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=1100&q=85")
+          center/cover;
+        border-radius: 200px 200px 0 0;
+        position: relative;
+      }
+      .hero-image span {
+        position: absolute;
+        bottom: 18px;
+        left: 25px;
+        color: #fff;
+        text-shadow: 0 2px 7px #000;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+      .statement {
+        background: #d6c6be;
+        padding: 55px 6%;
+        text-align: center;
+        font: 400 clamp(35px, 4vw, 61px)/1.13 "Instrument Serif";
+      }
+      .statement em {
+        color: #955d66;
+      }
+      .shop {
+        padding: 105px 6%;
+      }
+      .shop-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 38px;
+      }
+      .shop h2 {
+        font: 400 clamp(60px, 7vw, 105px)/0.95 "Instrument Serif";
+        margin: 17px 0 0;
+      }
+      .shop-header > span {
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+      .products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+      }
+      .product {
+        margin: 0;
+      }
+      .product img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        background: #dbcecb;
+      }
+      .product .details {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 18px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .product small {
+        font-size: 11px;
+        color: #8e7773;
+        font-weight: 400;
+      }
+      .care {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #e4d5ce;
+      }
+      .care-image {
+        background: url("https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=1100&q=80")
+          center/cover;
+        min-height: 520px;
+      }
+      .care-content {
+        padding: 85px 11%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .care-content h2 {
+        font: 400 clamp(55px, 5.5vw, 86px)/0.95 "Instrument Serif";
+        margin: 18px 0;
+      }
+      .care-content p {
+        line-height: 1.9;
+        color: #7e6c65;
+        font-size: 14px;
+      }
+      .end {
+        padding: 120px 6% 150px;
+        text-align: center;
+      }
+      .end h2 {
+        font: 400 clamp(64px, 8vw, 112px)/1 "Instrument Serif";
+        margin: 15px 0 22px;
+      }
+      .end a {
+        border-bottom: 1px solid var(--ink);
+        font-size: 12px;
+        font-weight: 700;
+        padding-bottom: 10px;
+      }
+      footer {
+        padding: 25px 6% 105px;
+        border-top: 1px solid #b7aaa3;
+        font-size: 11px;
+      }
+      @media (max-width: 700px) {
+        header nav a:not(:last-child) {
+          display: none;
+        }
+        .hero {
+          height: auto;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 0 6%;
+        }
+        .hero-content {
+          padding: 70px 0 30px;
+        }
+        .hero h1 {
+          font-size: clamp(69px, 13vw, 100px);
+        }
+        .hero-image {
+          height: 400px;
+          margin: 0 0 40px;
+        }
+        .shop {
+          padding: 75px 6%;
+        }
+        .products {
+          grid-template-columns: 1fr 1fr;
+        }
+        .product img {
+          height: 240px;
+        }
+        .shop-header {
+          display: block;
+        }
+        .shop-header > span {
+          display: block;
+          margin-top: 18px;
+        }
+        .care {
+          display: block;
+        }
+        .care-image {
+          min-height: 340px;
+        }
+        .care-content {
+          padding: 65px 6%;
+        }
+        .end {
+          padding: 85px 6% 120px;
+        }
+      }
+      @media (max-width: 430px) {
+        .products {
+          grid-template-columns: 1fr;
+        }
+        .product img {
+          height: 320px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="#inicio">floræ</a>
+      <nav>
+        <a href="#arranjos">ARRANJOS</a><a href="#historia">NOSSA HISTÓRIA</a
+        ><a href="#pedido">ENCOMENDAR ↗</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-content">
+          <span>ATELIÊ BOTÂNICO / PEQUENOS GESTOS</span>
+          <h1>Flores são<br /><em>um jeito</em><br />de dizer.</h1>
+          <p>
+            Para celebrar, acolher, agradecer ou simplesmente fazer o dia de
+            alguém mais bonito.
+          </p>
+          <a class="soft-link" href="#arranjos"
+            >CONHEÇA NOSSOS ARRANJOS <span>↗</span></a
+          >
+        </div>
+        <div class="hero-image"><span>FLORES DE TODO DIA / CONCEITO</span></div>
+      </section>
+      <div class="statement">
+        Um presente bonito começa com <em>intenção.</em>
+      </div>
+      <section id="arranjos" class="shop">
+        <div class="shop-header">
+          <div>
+            <span class="eyebrow">01 / NOSSA SELEÇÃO</span>
+            <h2>Flores da estação.</h2>
+          </div>
+          <span>CATÁLOGO ILUSTRATIVO</span>
+        </div>
+        <div class="products">
+          <article class="product">
+            <img
+              src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=850&q=80"
+              alt="Flores delicadas em tons claros"
+            />
+            <div class="details">
+              <span>Amanhecer</span><small>Arranjo especial</small>
+            </div>
+          </article>
+          <article class="product">
+            <img
+              src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=850&q=80"
+              alt="Buquê colorido"
+            />
+            <div class="details">
+              <span>Jardim leve</span><small>Buquê da casa</small>
+            </div>
+          </article>
+          <article class="product">
+            <img
+              src="https://images.unsplash.com/photo-1494336934272-f0efcedfc8e2?w=850&q=80"
+              alt="Arranjo floral"
+            />
+            <div class="details">
+              <span>Entre flores</span><small>Para presentear</small>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="care" id="historia">
+        <div class="care-image"></div>
+        <div class="care-content">
+          <span class="eyebrow">02 / FEITO PARA SENTIR</span>
+          <h2>Não é só um buquê.</h2>
+          <p>
+            A gente escolhe as flores, combina as cores e monta o arranjo
+            pensando em quem vai receber.
+          </p>
+        </div>
+      </section>
+      <section class="end" id="pedido">
+        <span class="eyebrow">03 / TEM ALGUM MOTIVO ESPECIAL?</span>
+        <h2>Flores combinam<br />com toda história.</h2>
+        <p>
+          Tem aniversário, pedido de desculpa ou só vontade de agradar? A gente
+          monta algo especial.
+        </p>
+        <a href="../../?modelo=flora#contato">QUERO UM SITE COMO ESTE ↗</a>
+      </section>
+    </main>
+    <footer>floræ / Modelo de loja criado pela CODIK DESIGN Studio</footer>
+    <aside class="demo-dock">
+      <div>
+        <b>CODIK DESIGN / DEMO</b><small>Este é um modelo demonstrativo</small>
+      </div>
+      <a href="../../?modelo=flora#contato">Quero um site assim ↗</a>
+    </aside>
+    <script>
+      if (location.protocol === "file:") {
+        document
+          .querySelectorAll('a[href^="../../?modelo="]')
+          .forEach(
+            (a) =>
+              (a.href = a
+                .getAttribute("href")
+                .replace("../../?modelo=", "../../PREVIA.html?modelo=")),
+          );
+      }
+    </script>
+    <script>
+      (function () {
+        if (
+          !("IntersectionObserver" in window) ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        var parts = document.querySelectorAll(
+          "main>section:not(:first-child),main>div:not(:first-child)",
+        );
+        document.body.classList.add("demo-motion");
+        var o = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add("demo-seen");
+                o.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
+        );
+        parts.forEach(function (el) {
+          o.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>

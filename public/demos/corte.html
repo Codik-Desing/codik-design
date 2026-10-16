@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CORTE 013 | Modelo CODIK DESIGN</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./demo-common.css" />
+    <style>
+      :root {
+        --o: #ff6d37;
+      }
+      body {
+        background: #10100e;
+        color: #f0eee8;
+        font-family: "DM Sans", sans-serif;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 5%;
+        border-bottom: 1px solid #55544e;
+        position: absolute;
+        z-index: 3;
+        width: 100%;
+      }
+      header strong {
+        font: 900 37px "Barlow Condensed";
+        letter-spacing: -1px;
+      }
+      header strong sup {
+        font-size: 10px;
+        vertical-align: top;
+      }
+      nav {
+        display: flex;
+        gap: 35px;
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 1.3px;
+      }
+      nav a:hover {
+        color: var(--o);
+      }
+      .outline {
+        border: 1px solid var(--o);
+        padding: 11px 15px;
+      }
+      .hero {
+        position: relative;
+        height: 92vh;
+        min-height: 650px;
+        display: flex;
+        align-items: center;
+        padding: 115px 5% 50px;
+        background:
+          linear-gradient(90deg, #10100ef2 0%, #10100ec9 44%, #10100e49 100%),
+          url("https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1800&q=85")
+            center/cover;
+      }
+      .serial {
+        position: absolute;
+        right: 5%;
+        top: 42%;
+        writing-mode: vertical-rl;
+        letter-spacing: 4px;
+        color: var(--o);
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .hero h1 {
+        font: 900 clamp(90px, 14vw, 210px)/0.75 "Barlow Condensed";
+        margin: 30px 0;
+        letter-spacing: -5px;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--o);
+      }
+      .hero p {
+        max-width: 365px;
+        color: #bdbab2;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .button {
+        display: inline-block;
+        background: var(--o);
+        color: black;
+        padding: 18px 26px;
+        margin-top: 25px;
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+      .marquee {
+        padding: 17px 5%;
+        background: var(--o);
+        color: #13110f;
+        font: 800 20px "Barlow Condensed";
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        letter-spacing: 2px;
+      }
+      .services {
+        padding: 100px 5%;
+      }
+      .kicker {
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--o);
+        font-weight: 700;
+      }
+      .services h2,
+      .team h2,
+      .booking h2 {
+        font: 800 clamp(60px, 9vw, 135px)/0.9 "Barlow Condensed";
+        margin: 18px 0 55px;
+        text-transform: uppercase;
+      }
+      .service-line {
+        border-top: 1px solid #56514c;
+        display: grid;
+        grid-template-columns: 90px 1fr 150px;
+        align-items: center;
+        padding: 26px 0;
+        gap: 22px;
+      }
+      .service-line:last-child {
+        border-bottom: 1px solid #56514c;
+      }
+      .service-line span {
+        font-size: 12px;
+        color: var(--o);
+      }
+      .service-line h3 {
+        font: 700 clamp(34px, 5vw, 65px) "Barlow Condensed";
+        text-transform: uppercase;
+        margin: 0;
+      }
+      .service-line p {
+        font-size: 13px;
+        color: #b6afa5;
+      }
+      .team {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #e7ded1;
+        color: #111;
+      }
+      .team-image {
+        background: url("https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=1300&q=85")
+          center/cover;
+        min-height: 480px;
+      }
+      .team-copy {
+        padding: 90px 10%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .team-copy p {
+        max-width: 450px;
+        line-height: 1.8;
+        color: #544c43;
+      }
+      .booking {
+        padding: 100px 5% 130px;
+        text-align: center;
+      }
+      .booking h2 {
+        margin-bottom: 14px;
+      }
+      footer {
+        border-top: 1px solid #444;
+        padding: 26px 5% 110px;
+        color: #8f8980;
+        font-size: 11px;
+      }
+      @media (max-width: 700px) {
+        header {
+          padding: 20px 5%;
+        }
+        nav a:not(.outline) {
+          display: none;
+        }
+        .hero h1 {
+          font-size: clamp(85px, 19vw, 150px);
+          letter-spacing: -2px;
+        }
+        .hero {
+          min-height: 600px;
+        }
+        .marquee {
+          font-size: 16px;
+        }
+        .marquee span:last-child {
+          display: none;
+        }
+        .service-line {
+          grid-template-columns: 30px 1fr;
+          gap: 8px;
+        }
+        .service-line p {
+          grid-column: 2;
+        }
+        .services {
+          padding: 70px 5%;
+        }
+        .services h2 {
+          margin-bottom: 35px;
+        }
+        .team {
+          display: block;
+        }
+        .team-image {
+          min-height: 300px;
+        }
+        .team-copy {
+          padding: 60px 7%;
+        }
+        .booking {
+          padding: 70px 5% 120px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>CORTE <sup>®</sup> 013</strong>
+      <nav>
+        <a href="#servicos">SERVIÇOS</a><a href="#casa">A CASA</a
+        ><a class="outline" href="#agendar">AGENDAR HORÁRIO ↗</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div>
+          <span class="kicker">A RUA É NOSSA. O ESTILO TAMBÉM.</span>
+          <h1>NÃO É SÓ<br /><em>CORTE.</em></h1>
+          <p>
+            O corte certo muda mais do que o visual. Aqui tem respeito, resenha
+            e personalidade.
+          </p>
+          <a class="button" href="#servicos">ESCOLHA SEU ESTILO ↗</a>
+        </div>
+        <span class="serial">013 / BARBER CLUB / 2026</span>
+      </section>
+      <div class="marquee">
+        <span>PRECISÃO ✳ ATITUDE ✳ RESPEITO ✳</span
+        ><span>NADA DE CORTE SEM PERSONALIDADE ✳</span>
+      </div>
+      <section class="services" id="servicos">
+        <span class="kicker">01 — NA CADEIRA</span>
+        <h2>SERVIÇOS DIRETO AO PONTO.</h2>
+        <div class="service-line">
+          <span>01</span>
+          <h3>CORTE MASCULINO</h3>
+          <p>Visuais clássicos e atuais</p>
+        </div>
+        <div class="service-line">
+          <span>02</span>
+          <h3>BARBA NA RÉGUA</h3>
+          <p>Acabamento e cuidado</p>
+        </div>
+        <div class="service-line">
+          <span>03</span>
+          <h3>COMBO COMPLETO</h3>
+          <p>Corte + barba</p>
+        </div>
+      </section>
+      <section class="team" id="casa">
+        <div class="team-image"></div>
+        <div class="team-copy">
+          <span class="kicker">02 — MAIS QUE UM CORTE</span>
+          <h2>SE SINTA EM CASA.</h2>
+          <p>
+            Um ambiente para chegar, trocar ideia e sair com o estilo renovado.
+            Da porta para dentro, você é da casa.
+          </p>
+        </div>
+      </section>
+      <section class="booking" id="agendar">
+        <span class="kicker">03 — PARTIU?</span>
+        <h2>A PRÓXIMA CADEIRA É SUA.</h2>
+        <p>Escolhe um horário, encosta e sai na régua. Simples assim.</p>
+        <a href="../../?modelo=corte#contato" class="button"
+          >QUERO UM SITE ASSIM ↗</a
+        >
+      </section>
+    </main>
+    <footer>CORTE 013 / MODELO CRIADO PELA CODIK DESIGN STUDIO</footer>
+    <aside class="demo-dock">
+      <div>
+        <b>CODIK DESIGN / DEMO</b><small>Este é um modelo demonstrativo</small>
+      </div>
+      <a href="../../?modelo=corte#contato">Quero um site assim ↗</a>
+    </aside>
+    <script>
+      if (location.protocol === "file:") {
+        document
+          .querySelectorAll('a[href^="../../?modelo="]')
+          .forEach(
+            (a) =>
+              (a.href = a
+                .getAttribute("href")
+                .replace("../../?modelo=", "../../PREVIA.html?modelo=")),
+          );
+      }
+    </script>
+    <script>
+      (function () {
+        if (
+          !("IntersectionObserver" in window) ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        var parts = document.querySelectorAll(
+          "main>section:not(:first-child),main>div:not(:first-child)",
+        );
+        document.body.classList.add("demo-motion");
+        var o = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add("demo-seen");
+                o.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
+        );
+        parts.forEach(function (el) {
+          o.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>

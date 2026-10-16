@@ -1,0 +1,110 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+button,
+input {
+  font: inherit;
+}
+.demo-dock {
+  position: fixed;
+  z-index: 30;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #191919;
+  color: white;
+  padding: 9px 10px 9px 16px;
+  border: 1px solid #ffffff24;
+  box-shadow: 0 8px 36px #0004;
+  font:
+    500 11px Arial,
+    sans-serif;
+  max-width: calc(100% - 28px);
+}
+.demo-dock small {
+  font-size: 10px;
+  opacity: 0.6;
+  display: block;
+  margin-top: 3px;
+}
+.demo-dock a {
+  background: #d8c8fa;
+  color: #211c2e;
+  font:
+    700 11px Arial,
+    sans-serif;
+  padding: 11px 12px;
+  white-space: nowrap;
+}
+.demo-dock a:hover {
+  background: white;
+}
+.demo-dock b {
+  font-size: 12px;
+}
+@media (max-width: 500px) {
+  .demo-dock {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    justify-content: space-between;
+    padding: 8px 8px 8px 11px;
+  }
+  .demo-dock a {
+    font-size: 10px;
+    padding: 10px 8px;
+  }
+}
+
+/* Motion shared by the six demos. */
+.demo-motion main > section:not(:first-child),
+.demo-motion main > div:not(:first-child) {
+  opacity: 0;
+  transform: translateY(38px);
+  transition:
+    opacity 0.95s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.95s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.demo-motion main > section.demo-seen,
+.demo-motion main > div.demo-seen {
+  opacity: 1;
+  transform: none;
+}
+.demo-dock {
+  transition:
+    transform 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 0.4s;
+}
+.demo-dock:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px #0005;
+}
+main img {
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+figure:hover img {
+  transform: scale(1.035);
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .demo-motion main > section:not(:first-child),
+  .demo-motion main > div:not(:first-child) {
+    opacity: 1;
+    transform: none;
+  }
+}

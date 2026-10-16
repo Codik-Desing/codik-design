@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>brasa. — Restaurante | Modelo CODIK DESIGN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./demo-common.css" />
+    <style>
+      :root {
+        --cream: #f0e4d3;
+        --orange: #e8844a;
+        --ink: #211410;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: #1d1511;
+        color: var(--cream);
+      }
+      .bh {
+        height: 82px;
+        position: absolute;
+        z-index: 2;
+        inset: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        border-bottom: 1px solid #f2e9db44;
+      }
+      .logo {
+        font: 700 34px "Space Grotesk";
+        letter-spacing: -3px;
+      }
+      .logo span {
+        color: var(--orange);
+      }
+      nav {
+        display: flex;
+        gap: 32px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        font-weight: 700;
+      }
+      nav a:hover {
+        color: var(--orange);
+      }
+      .reserve {
+        border: 1px solid var(--cream);
+        padding: 12px 17px;
+      }
+      .hero {
+        height: max(700px, 95vh);
+        min-height: 700px;
+        display: flex;
+        align-items: end;
+        padding: 130px 6% 95px;
+        background:
+          linear-gradient(90deg, #1d100dec 0%, #201008aa 57%, #21100a48 100%),
+          url("https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1800&q=85")
+            center/cover;
+      }
+      .hero-copy {
+        max-width: 930px;
+      }
+      .eyebrow {
+        font-size: 11px;
+        letter-spacing: 3px;
+        font-weight: 700;
+        color: #ffc099;
+      }
+      .hero h1 {
+        font: 700 clamp(65px, 10.5vw, 152px)/0.88 "Space Grotesk";
+        letter-spacing: -0.085em;
+        margin: 22px 0;
+      }
+      .hero h1 em {
+        font: 400 1.02em "Instrument Serif";
+        color: var(--orange);
+      }
+      .hero p {
+        font-size: 16px;
+        line-height: 1.8;
+        max-width: 380px;
+        color: #e5d6c4;
+      }
+      .main-link {
+        display: inline-flex;
+        background: var(--orange);
+        color: var(--ink);
+        padding: 18px 26px;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 1px;
+        margin-top: 20px;
+        gap: 25px;
+      }
+      .main-link:hover {
+        background: #ffc395;
+      }
+      .stripe {
+        padding: 25px 6%;
+        border-bottom: 1px solid #514037;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+      }
+      .intro {
+        padding: 110px 6%;
+        display: grid;
+        grid-template-columns: 45% 55%;
+        gap: 40px;
+        align-items: center;
+      }
+      .intro h2 {
+        font: 400 clamp(50px, 6vw, 88px)/1 "Instrument Serif";
+        letter-spacing: -2px;
+      }
+      .intro h2 em {
+        color: var(--orange);
+      }
+      .intro p {
+        max-width: 480px;
+        color: #d0bbab;
+        line-height: 1.9;
+        font-size: 16px;
+      }
+      .intro figure {
+        height: 570px;
+        margin: 0;
+        overflow: hidden;
+        background: #533726
+          url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1100&q=80")
+          center/cover;
+      }
+      .section-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--orange);
+      }
+      .menu {
+        background: #ebdecf;
+        color: #291b15;
+        padding: 105px 6%;
+      }
+      .menu > div:first-child {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 30px;
+      }
+      .menu h2 {
+        font: 400 clamp(52px, 7vw, 102px) "Instrument Serif";
+        margin: 10px 0 45px;
+      }
+      .menu .section-label {
+        color: #a5522b;
+      }
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+      }
+      .dish {
+        border-top: 1px solid #2b211b;
+        padding: 20px 0;
+      }
+      .dish img {
+        width: 100%;
+        height: 270px;
+        object-fit: cover;
+        background: #5a4334;
+      }
+      .dish h3 {
+        font: 600 25px "Space Grotesk";
+        margin: 17px 0 8px;
+      }
+      .dish p {
+        font-size: 13px;
+        color: #6a5b52;
+        line-height: 1.7;
+      }
+      .dish span {
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .ending {
+        padding: 105px 6%;
+        text-align: center;
+      }
+      .ending h2 {
+        font: 400 clamp(60px, 8vw, 110px) "Instrument Serif";
+        margin: 15px 0;
+      }
+      .ending p {
+        color: #cebeae;
+      }
+      footer {
+        padding: 33px 6% 95px;
+        border-top: 1px solid #4e3b30;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: 11px;
+        color: #bbaa9b;
+      }
+      @media (max-width: 700px) {
+        .bh {
+          height: 70px;
+        }
+        nav a:not(.reserve) {
+          display: none;
+        }
+        .hero {
+          height: 700px;
+          min-height: 0;
+          padding-bottom: 80px;
+        }
+        .hero h1 {
+          letter-spacing: -4px;
+        }
+        .intro {
+          display: flex;
+          flex-direction: column;
+          padding: 70px 6%;
+        }
+        .intro figure {
+          width: 100%;
+          height: 350px;
+        }
+        .menu {
+          padding: 70px 6%;
+        }
+        .menu-grid {
+          grid-template-columns: 1fr;
+        }
+        .menu > div:first-child {
+          display: block;
+        }
+        .stripe span:last-child {
+          display: none;
+        }
+        .dish img {
+          height: 210px;
+        }
+        .ending {
+          padding: 70px 6%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bh">
+      <a class="logo" href="#inicio">brasa<span>.</span></a>
+      <nav>
+        <a href="#sobre">A CASA</a><a href="#menu">CARDÁPIO</a
+        ><a href="#reservar" class="reserve">RESERVAS ↗</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-copy">
+          <span class="eyebrow">COMIDA BOA, SEM PRESSA.</span>
+          <h1>O melhor<br />acontece <em>à mesa.</em></h1>
+          <p>
+            Fogo aceso, mesa cheia. Chega com fome que do resto a gente cuida.
+          </p>
+          <a class="main-link" href="#menu">CONHECER O CARDÁPIO ↗</a>
+        </div>
+      </section>
+      <div class="stripe">
+        <span>COZINHA AUTORAL &nbsp; ✳ &nbsp; GENTE DE VERDADE</span
+        ><span>TER — DOM / ALMOÇO E JANTAR</span>
+      </div>
+      <section class="intro" id="sobre">
+        <div>
+          <span class="section-label">01 / NOSSA ESSÊNCIA</span>
+          <h2>Comida boa. Mesa cheia.</h2>
+          <p>
+            Da primeira entrada até a última garfada: aqui tem comida
+            caprichada, gente conversando alto e vontade de voltar.
+          </p>
+        </div>
+        <figure aria-label="Interior de restaurante"></figure>
+      </section>
+      <section class="menu" id="menu">
+        <div>
+          <div>
+            <span class="section-label">02 / A CASA SERVE</span>
+            <h2>Para abrir o apetite.</h2>
+          </div>
+          <span class="section-label">CARDÁPIO ILUSTRATIVO</span>
+        </div>
+        <div class="menu-grid">
+          <article class="dish">
+            <img
+              alt="Massa fresca"
+              src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=850&q=80"
+            />
+            <h3>Massas da casa</h3>
+            <p>
+              Preparadas sem pressa, com ingredientes frescos e molhos
+              especiais.
+            </p>
+            <span>VER OPÇÕES ↗</span>
+          </article>
+          <article class="dish">
+            <img
+              alt="Prato de carne"
+              src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=850&q=80"
+            />
+            <h3>Grelhados</h3>
+            <p>
+              Uma seleção de cortes e acompanhamentos para dividir — ou não.
+            </p>
+            <span>VER OPÇÕES ↗</span>
+          </article>
+          <article class="dish">
+            <img
+              alt="Sobremesa"
+              src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=850&q=80"
+            />
+            <h3>Última colherada</h3>
+            <p>
+              Sobremesas que fazem qualquer boa conversa durar um pouco mais.
+            </p>
+            <span>VER OPÇÕES ↗</span>
+          </article>
+        </div>
+      </section>
+      <section class="ending" id="reservar">
+        <span class="section-label">03 / SUA MESA ESTÁ ESPERANDO</span>
+        <h2>Bora reservar uma mesa?</h2>
+        <p>
+          Chama a galera, escolhe o horário e vem. A próxima mesa pode ser a
+          sua.
+        </p>
+        <a class="main-link" href="../../?modelo=brasa#contato"
+          >QUERO UM SITE ASSIM ↗</a
+        >
+      </section>
+    </main>
+    <footer>
+      <span>brasa. / Conceito demonstrativo</span
+      ><span>Design e desenvolvimento: CODIK DESIGN Studio</span>
+    </footer>
+    <aside class="demo-dock">
+      <div>
+        <b>CODIK DESIGN / DEMO</b><small>Este é um modelo demonstrativo</small>
+      </div>
+      <a href="../../?modelo=brasa#contato">Quero um site assim ↗</a>
+    </aside>
+    <script>
+      if (location.protocol === "file:") {
+        document
+          .querySelectorAll('a[href^="../../?modelo="]')
+          .forEach(
+            (a) =>
+              (a.href = a
+                .getAttribute("href")
+                .replace("../../?modelo=", "../../PREVIA.html?modelo=")),
+          );
+      }
+    </script>
+    <script>
+      (function () {
+        if (
+          !("IntersectionObserver" in window) ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        var parts = document.querySelectorAll(
+          "main>section:not(:first-child),main>div:not(:first-child)",
+        );
+        document.body.classList.add("demo-motion");
+        var o = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add("demo-seen");
+                o.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
+        );
+        parts.forEach(function (el) {
+          o.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>
