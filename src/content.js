@@ -2,7 +2,7 @@ export const studio = {
   nome: "CODIK DESIGN",
   slogan: "sites pensados com identidade",
   whatsapp: "", // ex.: 5511999999999
-  email: "", // ex.: contato@codik.design
+  email: "codikdev@gmail.com", // ex.: contato@codik.design
   instagram: "", // ex.: https://instagram.com/codikdesign
   membros: ["Isaías", "Rodrigo", "Nicolas"],
 };
