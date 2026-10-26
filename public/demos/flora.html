@@ -407,6 +407,14 @@
     <a href="../../?modelo=flora#contato">Quero um site assim ↗</a>
   </aside>
   <script>
+    document.querySelectorAll('a[href*="?modelo="]').forEach(function (a) {
+      a.addEventListener("click", function () {
+        var match = this.getAttribute("href").match(/(?:^|[?&])modelo=([^&#]+)/);
+        if (match && match[1]) {
+          sessionStorage.setItem("modo3_modelo", decodeURIComponent(match[1]));
+        }
+      });
+    });
     if (location.protocol === "file:") {
       document
         .querySelectorAll('a[href^="../../?modelo="]')

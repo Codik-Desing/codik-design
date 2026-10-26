@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 
 const qsModel = new URLSearchParams(window.location.search).get("modelo") || "";
+if (qsModel) {
+  sessionStorage.setItem("modo3_modelo", qsModel);
+}
 
 function modelUrl(model) {
   const base = import.meta.env.BASE_URL || "/";
@@ -907,7 +910,7 @@ function Contact() {
       body.append(
         "modelo",
         trabalhos.find((item) => item.slug === form.tipo)?.nome ||
-          "Site do zero",
+        "Site do zero",
       );
       body.append("mensagem", form.descricao.trim());
       body.append("consentimento", "Sim, para retorno sobre o orçamento");
@@ -930,9 +933,9 @@ function Contact() {
         const payload = await response.json().catch(() => ({}));
         const detail = Array.isArray(payload.errors)
           ? payload.errors
-              .map((item) => item.message)
-              .filter(Boolean)
-              .join(" ")
+            .map((item) => item.message)
+            .filter(Boolean)
+            .join(" ")
           : "";
         throw new Error(detail || `Falha no envio (${response.status})`);
       }
