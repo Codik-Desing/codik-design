@@ -1,4 +1,4 @@
-# CODIK DESIGN — Coleção de modelos (Vercel + Formspree)
+# CODIK DESIGN — Redesign editorial interativo
 
 Site do estúdio de **Isaías, Rodrigo e Nicolas**. A coleção reúne **18 demos em seis segmentos**, com busca, filtros e capturas reais dos sites. O formulário de contato continua integrado ao Formspree.
 
@@ -11,17 +11,37 @@ npm run dev
 
 Abra o link local mostrado no terminal. Teste no celular e no desktop.
 
-## O que mudou
+## Redesign experimental
 
-- Logo **CODIK DESIGN** em `public/codik-logo.png`, extraída do arquivo enviado pela equipe (sem redesenhar a arte).
-- Menu com feedback visual ao selecionar seção, indicador da seção atual e abertura/fechamento animados no celular.
-- Galeria responsiva com filtros por segmento e tipo de site, busca que reconhece palavras sem acentos e ordenação por novidades ou nome.
-- Capturas reais em `public/demos/previews/`, com rolagem da imagem ao passar o mouse. O botão de prévia abre a demo interativa em desktop ou celular.
-- Dois modelos novos por segmento, preservando os seis originais. Cada demo tem conteúdo próprio, botões animados, composição visual específica e interações relevantes ao negócio.
-- Elementos com perspectiva e geometria 3D feitos com CSS, resposta ao cursor e navegação por teclado. Animações respeitam a preferência de movimento reduzido.
-- Fotografias armazenadas no projeto em `public/demos/assets/`.
-- Site de fundo claro e tonalidades discretas de roxo, com áreas escuras no FAQ e contato.
-- Mantido formulário Formspree do pacote V5, com confirmação ou erro do servidor. **Não é painel administrativo próprio.**
+Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua na branch `design-experimental`, preparada para este teste. A branch `versao-atual` preserva a versão anterior; o experimento não modifica a `main`.
+
+- Bricolage Grotesque variável, Instrument Serif, composição editorial e acento laranja `#ff4a1c`.
+- Abertura de aproximadamente 3,9 segundos, uma vez por sessão; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido.
+- Título sensível ao cursor, cursor personalizado e links magnéticos apenas com ponteiro fino. Posições das letras armazenadas e loop pausado quando estabiliza.
+- Tema claro/escuro conforme o sistema, com escolha manual persistida quando o armazenamento está disponível.
+- Lista editorial das 18 demos, filtros, busca sem acentos, links reais e captura do site seguindo o cursor. Prévia interativa em desktop e celular.
+- Confete com Web Animations API, relógio de São Paulo e faixa animada. Campos de formulário, seleção de texto e movimento reduzido não geram confete.
+- Seção dos três sócios com nomes reais e composições tipográficas provisórias até receber fotos e funções.
+- Contatos, formulário Formspree, demos, favicon, título e descrição preservados. Nenhuma dependência nova.
+
+### Arquivos do redesign
+
+| Arquivo                     | Responsabilidade                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------ |
+| `src/main.jsx`              | Entrada React.                                                                                   |
+| `src/Redesign.jsx`          | Abertura, navegação, tema, título, trabalhos, prévias, equipe, chamada de contato e rodapé.      |
+| `src/experience.js`         | Armazenamento protegido, preferências, cursor, magnetismo, confete e seleção de modelo.          |
+| `src/redesign.css`          | Tokens, temas, tipografia, layouts, animações e regras responsivas.                              |
+| `src/Sections.jsx`          | Conteúdos preservados de tipos de site, processo, FAQ e formulário; abas acessíveis por teclado. |
+| `src/content.js`            | Conteúdos reais, contatos, modelos e campos para fotos e funções da equipe.                      |
+| `index.html`                | Fontes, tema inicial e alternativa sem JavaScript, mantendo SEO e favicon.                       |
+| `scripts/browser-check.mjs` | Verificação no Chrome e capturas de revisão.                                                     |
+
+### Pendências
+
+- **TODO:** preencher `studio.equipe[].foto` e `studio.equipe[].funcao` em `src/content.js` com fotos reais e funções aprovadas de Isaías, Rodrigo e Nicolas. Enquanto faltarem, aparecem monogramas e o rótulo neutro “Equipe Codik Design”. Não são usadas fotos fictícias.
+- **Formspree:** o envio real depende do ID previsto em `VITE_FORMSPREE_FORM_ID`. Sem ID, o site informa a indisponibilidade e oferece o e-mail real. Os testes não enviam mensagens reais.
+- WhatsApp e Instagram continuam opcionais, conforme os campos existentes de `studio`; não foram inventados contatos.
 
 ## Formulário (Vercel)
 
@@ -36,14 +56,14 @@ Abra o link local mostrado no terminal. Teste no celular e no desktop.
 
 ## Coleção de demos
 
-| Segmento | Original | Novos modelos |
-| --- | --- | --- |
-| Gastronomia | Brasa | Miso, Alba Café |
-| Beleza | Corte 013 | Áurea Studio, Ritmo Club |
-| Arquitetura | Morada | Lume Arquitetura, Vértice |
-| Fitness | Forma | Pulse Training, Serena |
-| Comércio | Flora | Objeto, Cacau & Afeto |
-| Tecnologia | Pixelware | Orbit, Nexus Systems |
+| Segmento    | Original  | Novos modelos             |
+| ----------- | --------- | ------------------------- |
+| Gastronomia | Brasa     | Miso, Alba Café           |
+| Beleza      | Corte 013 | Áurea Studio, Ritmo Club  |
+| Arquitetura | Morada    | Lume Arquitetura, Vértice |
+| Fitness     | Forma     | Pulse Training, Serena    |
+| Comércio    | Flora     | Objeto, Cacau & Afeto     |
+| Tecnologia  | Pixelware | Orbit, Nexus Systems      |
 
 Os conteúdos dos novos modelos ficam em `src/demo-models.js`; o catálogo utiliza esses mesmos dados. `scripts/generate-demos.mjs` gera os HTMLs completos em `public/demos/`, com estrutura por segmento. Comportamentos e estilos ficam em `collection.js` e `collection.css`. Os HTMLs são regenerados automaticamente antes de `npm run build`.
 
@@ -53,21 +73,19 @@ npm run build
 node scripts/browser-check.mjs
 ```
 
-O último comando usa o Google Chrome instalado no Windows, inicia uma prévia temporária, verifica navegação e interações e atualiza as 18 capturas reais. Verifica desktop, celular, larguras de 320 e 768 pixels, filtros, detalhes, sacola, simuladores, agendamento, prévia e seleção do modelo no contato. O relatório e capturas de revisão ficam em `.qa/` (ignorada pelo Git). Faça um novo build após atualizar as capturas para incluí-las na entrega.
+O último comando usa o Google Chrome instalado no Windows, inicia uma prévia temporária, verifica as 18 demos e atualiza suas capturas. Também verifica abertura, sessão, temas, ponteiro, filtros, teclado, prévias, seleção de modelo, armazenamento bloqueado e movimento reduzido no redesign, em 375, 768 e 1440 pixels. Use `node scripts/browser-check.mjs --home-only` para verificar só a página principal, sem regenerar as capturas das demos. O relatório e capturas de revisão ficam em `.qa/` (ignorada pelo Git). Faça um novo build após atualizar as capturas para incluí-las na entrega.
 
 Reservas, agendamentos, compras e planos nas demos são simulações locais identificadas na interface. Nenhum pagamento ou solicitação é enviado pelas marcas fictícias. O contato real continua na página principal da Codik.
 
-## Atualizar o site publicado na Vercel
+## Testar a versão na Vercel
 
-1. Extraia a pasta `codik-design` do ZIP.
-2. Substitua os arquivos do repositório conectado à Vercel pela nova versão (faça backup antes).
-3. Confira os contatos e conteúdos em `src/content.js`.
-4. Faça `npm run build` antes de enviar.
-5. Execute `git add .`, `git commit -m "Atualiza marca CODIK e carrossel"`, `git push`.
-6. A Vercel fará deploy automático se o repositório estiver vinculado; verifique no painel **Deployments**.
-7. Abra o domínio, teste menus, demos, filtros, carrossel e formulário real.
+1. Trabalhe na branch `design-experimental`.
+2. Confira os contatos em `src/content.js` e execute `npm run build`.
+3. Envie os commits dessa branch ao GitHub.
+4. Se o repositório estiver conectado à Vercel com previews habilitados, use a URL de preview da branch para revisar o redesign.
+5. A publicação no domínio principal fica para depois da revisão e integração à branch de produção.
 
-Configurações na Vercel: framework `Vite`, build `npm run build`, output `dist`.
+Configurações: framework `Vite`, build `npm run build`, output `dist`. O projeto não possui scripts de lint ou uma suíte de testes de terceiros; a validação usa o build e o roteiro de navegador acima.
 
 ## Privacidade
 
@@ -76,5 +94,5 @@ Os envios incluem nome, e-mail, WhatsApp, modelo e mensagem. Só ofereça aos de
 ## Limitações
 
 - Para **testar envio verdadeiro**, é obrigatório configurar um ID real do Formspree; sem ele não há salvamento.
-- A prévia `PREVIA.html` é uma visualização estática antiga do projeto e **não deve ser usada** para testar o formulário ou o carrossel. Teste com `npm run dev` ou na Vercel.
+- A prévia `PREVIA.html` é uma visualização estática antiga e **não deve ser usada** para testar o redesign ou o formulário. Teste com `npm run dev` ou na Vercel.
 - As 18 páginas demo são conceitos demonstrativos; funcionalidades comerciais e integrações reais exigem personalização específica para cada cliente.
