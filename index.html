@@ -2,8 +2,18 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta name="theme-color" content="#f4f0e9" />
+    <script>
+      try {
+        const theme = localStorage.getItem("codik-theme");
+        if (theme === "light" || theme === "dark")
+          document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
     <link rel="icon" type="image/png" href="/codik-logo.png" />
     <meta
       name="description"
@@ -12,13 +22,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200..800&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <title>CODIK DESIGN® — Design e desenvolvimento web</title>
   </head>
   <body>
     <div id="root"></div>
+    <noscript
+      ><div
+        style="
+          padding: 2rem;
+          font-family: system-ui;
+          background: #f4f0e9;
+          color: #141414;
+        "
+      >
+        <h1>CODIK DESIGN</h1>
+        <p>
+          Estúdio independente de design e desenvolvimento web, em São Paulo.
+          Sites com identidade e estratégia.
+        </p>
+        <p>
+          Conheça nossos modelos: <a href="/demos/brasa.html">Brasa</a>,
+          <a href="/demos/morada.html">Morada</a>,
+          <a href="/demos/orbit.html">Orbit</a>.
+        </p>
+        <a href="mailto:codikdev@gmail.com">codikdev@gmail.com</a>
+      </div></noscript
+    >
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

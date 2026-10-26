@@ -7,6 +7,12 @@ export const studio = {
   email: "codikdev@gmail.com", // ex.: contato@codik.design
   instagram: "", // ex.: https://instagram.com/codikdesign
   membros: ["Isaías", "Rodrigo", "Nicolas"],
+  // TODO: informar fotos reais e funções aprovadas pelos três sócios.
+  equipe: [
+    { nome: "Isaías", foto: null, funcao: null },
+    { nome: "Rodrigo", foto: null, funcao: null },
+    { nome: "Nicolas", foto: null, funcao: null },
+  ],
 };
 
 export const tiposDeSite = [
