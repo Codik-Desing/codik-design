@@ -1,6 +1,6 @@
 # CODIK DESIGN — Versão 6 (Vercel + Formspree)
 
-Site do estúdio de **Isaías, Rodrigo e Nicola**. Esta versão substitui a logo anterior pela logo CODIK enviada pela equipe, incorpora navegação animada, carrossel com os seis modelos e mantém o formulário Formspree.
+Site do estúdio de **Isaías, Rodrigo e Nicolas**. Esta versão substitui a logo anterior pela logo CODIK enviada pela equipe, incorpora navegação animada, carrossel com os seis modelos e mantém o formulário Formspree.
 
 ## Usar no VS Code
 
