@@ -1,25 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { studio, trabalhos, tiposDeSite, filtrosCategoria } from "./content";
+import { studio, trabalhos, tiposDeSite } from "./content";
 import "./style.css";
+import Models from "./Models";
 import {
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Menu,
-  X,
 } from "lucide-react";
 
 const qsModel = new URLSearchParams(window.location.search).get("modelo") || "";
 if (qsModel) {
   sessionStorage.setItem("modo3_modelo", qsModel);
-}
-
-function modelUrl(model) {
-  const base = import.meta.env.BASE_URL || "/";
-  return `${base.replace(/\/$/, "")}${model.demo}`;
 }
 
 function makeLeadText(body) {
@@ -351,9 +343,9 @@ function Hero() {
               </span>
             </h1>
             <p className="hero-text">
-              Você tem a ideia. A gente cuida do site. De uma página para
-              apresentar seu negócio a um projeto completo, criamos algo que
-              combina com você — e funciona de verdade.
+              Você tem a ideia. Nós cuidamos do site. Do primeiro esboço ao
+              produto final, criamos experiências que refletem sua marca e
+              funcionam na prática.
             </p>
             <div className="hero-actions">
               <a href="#modelos" className="button button-dark">
@@ -454,286 +446,6 @@ function SiteTypes() {
   );
 }
 
-function Models() {
-  const [tipo, setTipo] = useState("todos");
-  const [categoria, setCategoria] = useState("Todos");
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
-  const carouselRef = useRef(null);
-  const visible = useMemo(
-    () =>
-      trabalhos.filter((item) => {
-        const byTipo = tipo === "todos" || item.tipo === tipo;
-        const byCat = categoria === "Todos" || item.categoria === categoria;
-        return byTipo && byCat;
-      }),
-    [tipo, categoria],
-  );
-
-  const scrollToSlide = (index) => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const cards = Array.from(carousel.querySelectorAll(".model-card"));
-    const target = Math.max(0, Math.min(cards.length - 1, index));
-    if (!cards[target]) return;
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const destination = cards[target].offsetLeft - cards[0].offsetLeft;
-    carousel.scrollTo({
-      left: destination,
-      behavior: prefersReduced ? "instant" : "smooth",
-    });
-    setActiveSlide(target);
-  };
-  const moveCarousel = (direction) => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const card = carousel.querySelector(".model-card");
-    const step = card
-      ? card.getBoundingClientRect().width + 22
-      : carousel.clientWidth;
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    carousel.scrollBy({
-      left: direction * step,
-      behavior: prefersReduced ? "instant" : "smooth",
-    });
-  };
-  const onCarouselScroll = () => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const cards = Array.from(carousel.querySelectorAll(".model-card"));
-    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-    const left = carousel.scrollLeft;
-    setCanPrev(left > 4);
-    setCanNext(left < maxScroll - 4);
-    if (!cards.length) return;
-    if (maxScroll > 3 && left >= maxScroll - 4) {
-      setActiveSlide(cards.length - 1);
-      return;
-    }
-    const origin = cards[0].offsetLeft;
-    const target = cards.reduce(
-      (best, card, index) => {
-        const distance = Math.abs(card.offsetLeft - origin - left);
-        return distance < best.distance ? { index, distance } : best;
-      },
-      { index: 0, distance: Infinity },
-    );
-    setActiveSlide((current) =>
-      current === target.index ? current : target.index,
-    );
-  };
-  useEffect(() => {
-    if (carouselRef.current) carouselRef.current.scrollLeft = 0;
-    setActiveSlide(0);
-    const raf = requestAnimationFrame(() => onCarouselScroll());
-    return () => cancelAnimationFrame(raf);
-  }, [tipo, categoria]);
-  useEffect(() => {
-    const update = () => onCarouselScroll();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [visible.length]);
-
-  const reset = () => {
-    setTipo("todos");
-    setCategoria("Todos");
-  };
-  return (
-    <section className="models" id="modelos">
-      <div className="shell">
-        <div className="section-head section-head-dark" data-reveal>
-          <span>02 / MODELOS</span>
-          <h2>Dá uma olhada no que a gente faz.</h2>
-        </div>
-        <div className="filter-block">
-          <div>
-            <p className="filter-title">tipo de site</p>
-            <div className="filters-row">
-              <button
-                type="button"
-                className={`filter-pill ${tipo === "todos" ? "is-active" : ""}`}
-                onClick={() => setTipo("todos")}
-                aria-pressed={tipo === "todos"}
-              >
-                Todos
-              </button>
-              {tiposDeSite.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  className={`filter-pill ${tipo === item.id ? "is-active" : ""}`}
-                  onClick={() => setTipo(item.id)}
-                  aria-pressed={tipo === item.id}
-                >
-                  {item.nome}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <p className="filter-title">segmento</p>
-            <div className="filters-row">
-              {filtrosCategoria.map((item) => (
-                <button
-                  type="button"
-                  key={item}
-                  className={`filter-pill ${categoria === item ? "is-active" : ""}`}
-                  onClick={() => setCategoria(item)}
-                  aria-pressed={categoria === item}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="carousel-heading">
-          <div className="model-count" aria-live="polite">
-            <span>
-              {visible.length}{" "}
-              {visible.length === 1
-                ? "modelo encontrado"
-                : "modelos encontrados"}{" "}
-              · deslize para explorar
-            </span>
-            {(tipo !== "todos" || categoria !== "Todos") && (
-              <button type="button" onClick={reset}>
-                limpar filtros ↗
-              </button>
-            )}
-          </div>
-          {visible.length > 1 && (
-            <div className="carousel-arrows">
-              <button
-                type="button"
-                aria-label="Modelo anterior"
-                onClick={() => moveCarousel(-1)}
-                disabled={!canPrev}
-              >
-                <ChevronLeft size={23} />
-              </button>
-              <button
-                type="button"
-                aria-label="Próximo modelo"
-                onClick={() => moveCarousel(1)}
-                disabled={!canNext}
-              >
-                <ChevronRight size={23} />
-              </button>
-            </div>
-          )}
-        </div>
-        <div
-          className="models-carousel"
-          ref={carouselRef}
-          onScroll={onCarouselScroll}
-          role="region"
-          aria-roledescription="carrossel"
-          aria-label="Modelos de sites"
-          tabIndex={0}
-          onKeyDown={(event) => {
-            if (event.target !== event.currentTarget) return;
-            if (event.key === "ArrowRight") {
-              event.preventDefault();
-              moveCarousel(1);
-            }
-            if (event.key === "ArrowLeft") {
-              event.preventDefault();
-              moveCarousel(-1);
-            }
-          }}
-        >
-          {visible.map((item, index) => (
-            <article
-              className="model-card"
-              key={item.slug}
-              style={{ "--card-order": index }}
-              aria-label={`Modelo ${index + 1} de ${visible.length}: ${item.nome}`}
-            >
-              <a
-                className="model-preview"
-                href={modelUrl(item)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Abrir demonstração do modelo ${item.nome}`}
-              >
-                <Visual styleName={item.estilo} />
-                <span className="model-hover">
-                  abrir demo <ArrowUpRight size={16} />
-                </span>
-              </a>
-              <div className="model-top">
-                <div>
-                  <span className="model-meta">
-                    {item.num} / {item.categoria}
-                  </span>
-                  <h3>{item.nome}</h3>
-                </div>
-                <span className="model-tag">{item.tipoLabel}</span>
-              </div>
-              <p className="model-description">{item.descricao}</p>
-              <p className="model-summary">{item.resumo}</p>
-              <div className="model-actions">
-                <a
-                  href={modelUrl(item)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ver demo
-                </a>
-                <a
-                  href="#contato"
-                  onClick={() => {
-                    sessionStorage.setItem("modo3_modelo", item.slug);
-                    window.dispatchEvent(
-                      new CustomEvent("modo3:modelo", { detail: item.slug }),
-                    );
-                  }}
-                >
-                  quero algo assim
-                </a>
-              </div>
-            </article>
-          ))}
-          {visible.length === 0 && (
-            <div className="empty-filter">
-              Ainda não temos um modelo nessa combinação.{" "}
-              <button type="button" onClick={reset}>
-                Ver todos ↗
-              </button>
-            </div>
-          )}
-        </div>
-        {visible.length > 1 && (
-          <div className="carousel-bottom">
-            <div className="carousel-pagination" aria-label="Escolher modelo">
-              {visible.map((item, index) => (
-                <button
-                  key={item.slug}
-                  type="button"
-                  className={index === activeSlide ? "is-active" : ""}
-                  aria-label={`Ir para ${item.nome}`}
-                  aria-current={index === activeSlide ? "true" : undefined}
-                  onClick={() => scrollToSlide(index)}
-                />
-              ))}
-            </div>
-            <span className="carousel-position">
-              {String(activeSlide + 1).padStart(2, "0")} /{" "}
-              {String(visible.length).padStart(2, "0")}
-            </span>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
 function About() {
   return (
     <section className="about" id="sobre">
@@ -744,14 +456,13 @@ function About() {
         </div>
         <div>
           <p className="about-lead">
-            A gente gosta de pegar uma ideia no papel e transformar em algo que
-            dá orgulho de mostrar.
+            Gostamos de transformar uma ideia em algo com presença, clareza e
+            propósito.
           </p>
           <p>
-            Somos <strong>Isaías, Rodrigo e Nicolas</strong>. Juntamos
-            desenvolvimento e design para montar sites rápidos, bonitos e
-            práticos. Sem formulário gigante para começar: é só chamar e contar
-            o que você precisa.
+            Somos <strong>Isaías, Rodrigo e Nicolas</strong>. Unimos design e
+            desenvolvimento para criar sites rápidos, bonitos e eficientes —
+            com uma conversa simples e um processo claro desde o começo.
           </p>
           <div className="member-list">
             {studio.membros.map((item) => (
@@ -768,23 +479,23 @@ function Process() {
   const steps = [
     [
       "01",
-      "Você conta sua ideia",
-      "Conta o que você precisa, para quem é e o estilo que curte.",
+      "Você conta a ideia",
+      "Explica seu objetivo, público e o estilo que você deseja para o projeto.",
     ],
     [
       "02",
-      "A gente define a direção",
-      "Escolhemos um modelo ou criamos algo do zero como base do projeto.",
+      "Definimos a direção",
+      "Escolhemos um modelo ou criamos a base do projeto a partir da sua marca.",
     ],
     [
       "03",
       "Montamos e ajustamos",
-      "Organizamos texto, visual e versão mobile com carinho nos detalhes.",
+      "Organizamos textos, visual e versão mobile com atenção aos detalhes.",
     ],
     [
       "04",
       "Publicamos com você",
-      "Colocamos o site no ar e explicamos como manter tudo funcionando.",
+      "Colocamos o site no ar e orientamos sobre a manutenção e a próxima etapa.",
     ],
   ];
   return (
@@ -812,15 +523,15 @@ function FAQ() {
   const items = [
     [
       "Vocês fazem só modelo pronto?",
-      "Não. Os modelos servem para mostrar direção visual. A gente também pode personalizar tudo para o seu negócio.",
+      "Não. Os modelos servem como referência visual. Também é possível personalizar cada detalhe para refletir a sua marca e o seu negócio.",
     ],
     [
       "Dá para pedir um site do zero?",
-      "Sim. Se você quiser algo único, usamos esse portfólio só como referência de estilo e estrutura.",
+      "Sim. Se você deseja algo único, usamos este portfólio como referência de estilo e estrutura, sem limitar a criação.",
     ],
     [
       "Vocês publicam o site também?",
-      "Sim. A gente pode entregar o projeto pronto para publicar ou ajudar a colocar no ar na Vercel, onde nosso portfólio já está hospedado.",
+      "Sim. Podemos entregar o projeto pronto para publicação ou apoiar a etapa de colocar tudo no ar na Vercel, onde este portfólio já está hospedado.",
     ],
   ];
   return (
@@ -973,8 +684,8 @@ function Contact() {
           <span className="section-mini light">06 / CONTATO</span>
           <h2>Gostou do que viu? Bora conversar.</h2>
           <p className="contact-copy">
-            Preencha o formulário e conte um pouco sobre o seu projeto. A gente
-            recebe seu pedido de orçamento e entra em contato.
+            Preencha o formulário e conte um pouco sobre o seu projeto. Nós
+            recebemos o pedido de orçamento e retornamos em seguida.
           </p>
           <div className="contact-badges">
             <span>site responsivo</span>

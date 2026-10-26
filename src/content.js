@@ -1,6 +1,8 @@
+import { demoModels } from "./demo-models";
+
 export const studio = {
   nome: "CODIK DESIGN",
-  slogan: "sites pensados com identidade",
+  slogan: "sites com identidade e estratégia",
   whatsapp: "", // ex.: 5511999999999
   email: "codikdev@gmail.com", // ex.: contato@codik.design
   instagram: "", // ex.: https://instagram.com/codikdesign
@@ -140,6 +142,15 @@ export const trabalhos = [
     demo: "/demos/pixel.html",
     ano: "Modelo conceito",
   },
+  ...demoModels.map((item, index) => ({
+    ...item,
+    num: String(index + 7).padStart(2, "0"),
+    tipoLabel: tiposDeSite.find((type) => type.id === item.tipo).nome,
+    estilo: item.slug,
+    demo: `/demos/${item.slug}.html`,
+    ano: "Modelo conceito",
+    novo: true,
+  })),
 ];
 
 export const filtrosCategoria = [
