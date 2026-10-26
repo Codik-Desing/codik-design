@@ -403,7 +403,7 @@ em {
 .editorial-marquee:hover > div {
   animation-play-state: paused;
 }
-/* Session-only introduction; the actual page is mounted underneath. */
+/* Introduction on every page load; the actual page is mounted underneath. */
 .intro-overlay {
   position: fixed;
   inset: 0;

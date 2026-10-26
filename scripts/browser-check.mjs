@@ -382,7 +382,7 @@ try {
   );
   assert(
     await evaluate('!!document.querySelector(".intro-overlay")'),
-    "first-session introduction",
+    "introduction on initial page load",
   );
   assert(
     await evaluate(
@@ -423,10 +423,46 @@ try {
     ),
     "complete introduction and reveal",
   );
-  await visit(base, "redesign-repeat-visit");
+  await evaluate('sessionStorage.setItem("codik-intro-seen","1")');
+  await call("Page.reload", { ignoreCache: true });
+  for (let attempt = 0; attempt < 100; attempt++) {
+    try {
+      if (await evaluate('!!document.querySelector(".intro-overlay")')) break;
+    } catch {
+      /* Navigation may replace the execution context. */
+    }
+    await delay(80);
+  }
   assert(
-    await evaluate('!document.querySelector(".intro-overlay")'),
-    "introduction runs once per session",
+    await evaluate('!!document.querySelector(".intro-overlay")'),
+    "introduction replays on reload despite a previous visit",
+  );
+  await click(".intro-skip");
+  await delay(150);
+  await evaluate('history.replaceState(null,"","#modelos")');
+  await call("Page.reload", { ignoreCache: true });
+  for (let attempt = 0; attempt < 100; attempt++) {
+    try {
+      if (await evaluate('!!document.querySelector(".intro-overlay")')) break;
+    } catch {
+      /* Navigation may replace the execution context. */
+    }
+    await delay(80);
+  }
+  assert(
+    await evaluate('!!document.querySelector(".intro-overlay")'),
+    "introduction replays on reload with an anchor",
+  );
+  await click(".intro-skip");
+  await delay(150);
+  assert(
+    await evaluate(
+      'Math.abs(document.querySelector("#modelos").getBoundingClientRect().top - 24) < 3',
+    ),
+    "anchor destination is preserved after the introduction",
+  );
+  await evaluate(
+    'history.replaceState(null,"",location.pathname);window.scrollTo({top:0,behavior:"instant"})',
   );
   await evaluate('document.documentElement.dataset.theme="light"');
   const lightShot = await call("Page.captureScreenshot", { format: "png" });

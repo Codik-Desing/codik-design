@@ -16,7 +16,7 @@ Abra o link local mostrado no terminal. Teste no celular e no desktop.
 Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua na branch `design-experimental`, preparada para este teste. A branch `versao-atual` preserva a versão anterior; o experimento não modifica a `main`.
 
 - Bricolage Grotesque variável, Instrument Serif, composição editorial e acento laranja `#ff4a1c`.
-- Abertura de aproximadamente 3,9 segundos, uma vez por sessão; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido.
+- Abertura de aproximadamente 3,9 segundos a cada carregamento ou recarregamento da página; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido. Links para seções mantêm o destino após a abertura.
 - Título sensível ao cursor, cursor personalizado e links magnéticos apenas com ponteiro fino. Posições das letras armazenadas e loop pausado quando estabiliza.
 - Tema claro/escuro conforme o sistema, com escolha manual persistida quando o armazenamento está disponível.
 - Lista editorial das 18 demos, filtros, busca sem acentos, links reais e captura do site seguindo o cursor. Prévia interativa em desktop e celular.
@@ -73,7 +73,7 @@ npm run build
 node scripts/browser-check.mjs
 ```
 
-O último comando usa o Google Chrome instalado no Windows, inicia uma prévia temporária, verifica as 18 demos e atualiza suas capturas. Também verifica abertura, sessão, temas, ponteiro, filtros, teclado, prévias, seleção de modelo, armazenamento bloqueado e movimento reduzido no redesign, em 375, 768 e 1440 pixels. Use `node scripts/browser-check.mjs --home-only` para verificar só a página principal, sem regenerar as capturas das demos. O relatório e capturas de revisão ficam em `.qa/` (ignorada pelo Git). Faça um novo build após atualizar as capturas para incluí-las na entrega.
+O último comando usa o Google Chrome instalado no Windows, inicia uma prévia temporária, verifica as 18 demos e atualiza suas capturas. Também verifica abertura a cada recarregamento, links para seções, temas, ponteiro, filtros, teclado, prévias, seleção de modelo, armazenamento bloqueado e movimento reduzido no redesign, em 375, 768 e 1440 pixels. Use `node scripts/browser-check.mjs --home-only` para verificar só a página principal, sem regenerar as capturas das demos. O relatório e capturas de revisão ficam em `.qa/` (ignorada pelo Git). Faça um novo build após atualizar as capturas para incluí-las na entrega.
 
 Reservas, agendamentos, compras e planos nas demos são simulações locais identificadas na interface. Nenhum pagamento ou solicitação é enviado pelas marcas fictícias. O contato real continua na página principal da Codik.
 

@@ -744,9 +744,7 @@ export default function Redesign() {
   const scopeRef = useRef(null);
   const reduce = useMedia("(prefers-reduced-motion: reduce)");
   const fine = useMedia("(hover: hover) and (pointer: fine)");
-  const [active, setActive] = useState(
-    () => !reduce && !safeStorage.get("codik-intro-seen") && !location.hash,
-  );
+  const [active, setActive] = useState(() => !reduce);
   const [ready, setReady] = useState(!active),
     [run, setRun] = useState(0),
     [hover, setHover] = useState(null);
@@ -754,7 +752,6 @@ export default function Redesign() {
   const onFinish = useCallback(() => {
     setActive(false);
     setReady(true);
-    safeStorage.set("codik-intro-seen", "1");
     window.dispatchEvent(new Event("codik:intro-end"));
   }, []);
   const onReplay = () => {
