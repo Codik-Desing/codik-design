@@ -1161,6 +1161,22 @@ function Footer() {
 
 function App() {
   useEffect(() => {
+    const hash = window.location.hash.replace("#", "").trim();
+    if (!hash) return;
+
+    const target = document.getElementById(hash);
+    if (!target) return;
+
+    const scrollToHash = () => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    requestAnimationFrame(scrollToHash);
+    const timer = window.setTimeout(scrollToHash, 220);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const targets = () =>
       document.querySelectorAll("[data-reveal]:not(.is-visible)");
     if (
