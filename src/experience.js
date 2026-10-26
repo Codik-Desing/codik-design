@@ -56,10 +56,17 @@ export function usePointerExperience(scopeRef, enabled) {
     const root = scopeRef.current;
     const cursor = root.querySelector(".custom-cursor");
     const preview = root.querySelector(".work-hover-preview");
-    const letters = [...root.querySelectorAll("[data-weight-letter]")];
+    let letters = [],
+      weights = [];
     let live = true;
-    let positions = [],
-      weights = letters.map(() => 300);
+    let positions = [];
+    let hoveredRow = null;
+    let previewBounds = {
+      left: 16,
+      right: innerWidth - 16,
+      width: 260,
+      height: 320,
+    };
     let mx = -500,
       my = -500,
       cx = -500,
@@ -70,6 +77,28 @@ export function usePointerExperience(scopeRef, enabled) {
     let raf = 0,
       measureRaf = 0,
       inside = false;
+    const measurePreview = () => {
+      if (!hoveredRow?.isConnected) hoveredRow = null;
+      const rowRect = hoveredRow?.getBoundingClientRect();
+      const arrowRect = hoveredRow
+        ?.querySelector(".row-arrow")
+        ?.getBoundingClientRect();
+      const left = Math.max(16, rowRect?.left || 16);
+      // Reserve the arrow and both action buttons, even while the card tilts.
+      const right = Math.min(
+        innerWidth - 16,
+        arrowRect ? arrowRect.left - 16 : innerWidth - 16,
+      );
+      const width = Math.max(0, Math.min(260, right - left));
+      preview.style.setProperty("--preview-max-width", `${width}px`);
+      preview.style.visibility = width < 150 ? "hidden" : "";
+      previewBounds = {
+        left,
+        right,
+        width,
+        height: Math.max(0, Math.min(320, innerHeight - 32)),
+      };
+    };
     const measure = () => {
       if (!live) return;
       cancelAnimationFrame(measureRaf);
@@ -81,6 +110,7 @@ export function usePointerExperience(scopeRef, enabled) {
             y: r.top + r.height / 2 + scrollY,
           };
         });
+        measurePreview();
       });
     };
     function step() {
@@ -97,10 +127,34 @@ export function usePointerExperience(scopeRef, enabled) {
       px += (mx - px) * 0.14;
       py += (my - py) * 0.14;
       rotation += ((px - oldX) * 0.6 - rotation) * 0.2;
-      // Keep the preview inside the viewport, including the last visible rows.
-      const left = Math.min(innerWidth - 280, Math.max(16, px + 28));
-      const top = Math.min(innerHeight - 340, Math.max(16, py - 160));
-      preview.style.transform = `translate3d(${left}px,${top}px,0) rotate(${Math.max(-14, Math.min(14, rotation))}deg)`;
+      const { left: minimum, right, width, height } = previewBounds;
+      let tilt = Math.max(-14, Math.min(14, rotation));
+      let angle = (Math.abs(tilt) * Math.PI) / 180;
+      // The rotated bounds count too; narrow or short screens use a flat card.
+      if (
+        width * Math.cos(angle) + height * Math.sin(angle) > right - minimum ||
+        height * Math.cos(angle) + width * Math.sin(angle) > innerHeight - 32
+      ) {
+        tilt = 0;
+        angle = 0;
+      }
+      const padX = Math.max(
+        0,
+        (width * Math.cos(angle) + height * Math.sin(angle) - width) / 2,
+      );
+      const padY = Math.max(
+        0,
+        (height * Math.cos(angle) + width * Math.sin(angle) - height) / 2,
+      );
+      const left = Math.max(
+        minimum + padX,
+        Math.min(right - width - padX, px + 28),
+      );
+      const top = Math.max(
+        16 + padY,
+        Math.min(innerHeight - 16 - height - padY, py - height / 2),
+      );
+      preview.style.transform = `translate3d(${left}px,${top}px,0) rotate(${tilt}deg)`;
       letters.forEach((el, i) => {
         const center = positions[i];
         const distance =
@@ -119,11 +173,25 @@ export function usePointerExperience(scopeRef, enabled) {
     const wake = () => {
       if (!raf) raf = requestAnimationFrame(step);
     };
+    const refreshLetters = () => {
+      const previous = new Map(
+        letters.map((el, index) => [el, weights[index]]),
+      );
+      letters = [...root.querySelectorAll("[data-weight-letter]")];
+      weights = letters.map((el) => previous.get(el) ?? 300);
+      measure();
+      wake();
+    };
     const move = (event) => {
       if (event.pointerType !== "mouse") return;
       inside = true;
       mx = event.clientX;
       my = event.clientY;
+      const row = event.target.closest?.(".work-row") || null;
+      if (row !== hoveredRow) {
+        hoveredRow = row;
+        measurePreview();
+      }
       cursor.classList.add("is-present");
       wake();
     };
@@ -142,11 +210,28 @@ export function usePointerExperience(scopeRef, enabled) {
       wake();
     };
     const transitionEnd = (event) => {
-      if (event.target.closest(".hero-line")) measure();
+      if (event.target.closest(".hero-line,[data-reveal]")) measure();
     };
     const resizeObserver = new ResizeObserver(measure);
-    resizeObserver.observe(root.querySelector(".editorial-hero"));
-    measure();
+    resizeObserver.observe(root.querySelector(".site-content"));
+    const contentObserver = new MutationObserver((records) => {
+      if (
+        records.some((record) =>
+          [...record.addedNodes, ...record.removedNodes].some(
+            (node) =>
+              node.nodeType === 1 &&
+              (node.matches("[data-weight-letter]") ||
+                node.querySelector("[data-weight-letter]")),
+          ),
+        )
+      )
+        refreshLetters();
+    });
+    contentObserver.observe(root.querySelector(".site-content"), {
+      childList: true,
+      subtree: true,
+    });
+    refreshLetters();
     document.fonts?.ready.then(measure);
     document.documentElement.classList.add("custom-pointer");
     window.addEventListener("pointermove", move, { passive: true });
@@ -162,6 +247,9 @@ export function usePointerExperience(scopeRef, enabled) {
       cancelAnimationFrame(raf);
       cancelAnimationFrame(measureRaf);
       resizeObserver.disconnect();
+      contentObserver.disconnect();
+      preview.style.removeProperty("--preview-max-width");
+      preview.style.visibility = "";
       document.documentElement.classList.remove("custom-pointer");
       cursor.classList.remove("is-present");
       window.removeEventListener("pointermove", move);

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { filtrosCategoria, studio, tiposDeSite, trabalhos } from "./content";
 import { Contact, FAQ, Process, SiteTypes } from "./Sections";
+import InteractiveText, { SplitWord } from "./InteractiveText";
 import {
   chooseModel,
   demoUrl,
@@ -192,24 +193,6 @@ function Header({ onReplay, reduce }) {
         </div>
       </nav>
     </header>
-  );
-}
-
-function SplitWord({ text, interactive = true }) {
-  return (
-    <>
-      {[...text].map((char, i) => (
-        <span
-          className="title-glyph"
-          data-char={char === " " ? "\u00a0" : char}
-          key={i}
-        >
-          <span {...(interactive ? { "data-weight-letter": "" } : {})}>
-            {char === " " ? "\u00a0" : char}
-          </span>
-        </span>
-      ))}
-    </>
   );
 }
 
@@ -467,7 +450,8 @@ function WorkList({ onHover, fine }) {
         <div>
           <span className="section-label">01 / EXPLORE AS POSSIBILIDADES</span>
           <h2 id="work-title">
-            Trabalhos<sup>{String(trabalhos.length).padStart(2, "0")}</sup>
+            <InteractiveText text="Trabalhos" />
+            <sup>{String(trabalhos.length).padStart(2, "0")}</sup>
           </h2>
         </div>
         <p>
@@ -551,24 +535,21 @@ function WorkList({ onHover, fine }) {
       </div>
       <div className="work-list" onPointerLeave={() => onHover(null)}>
         {visible.map((item) => (
-          <article
-            className="work-entry"
-            key={item.slug}
-            onPointerEnter={(event) => {
-              if (fine && event.pointerType === "mouse") onHover(item);
-            }}
-            onPointerLeave={() => onHover(null)}
-          >
+          <article className="work-entry" key={item.slug}>
             <a
               className="work-row"
               href={demoUrl(item)}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Explorar ${item.nome}, ${item.categoria}, ${item.tipoLabel}`}
+              onPointerEnter={(event) => {
+                if (fine && event.pointerType === "mouse") onHover(item);
+              }}
+              onPointerLeave={() => onHover(null)}
             >
               <span className="work-number">{item.num}</span>
               <b>
-                {item.nome}
+                <InteractiveText text={item.nome} />
                 <small>{item.tipoLabel}</small>
               </b>
               <i>{item.categoria}</i>
@@ -639,9 +620,9 @@ function Studio() {
         <div>
           <span className="section-label">03 / SOBRE A CODIK DESIGN</span>
           <h2>
-            Três devs.
+            <InteractiveText text="Três devs." />
             <br />
-            Diferentes ideias.
+            <InteractiveText text="Diferentes ideias." />
             <br />
             <em>O mesmo cuidado.</em>
           </h2>
@@ -665,8 +646,16 @@ function Studio() {
         </div>
       </div>
       <div className="team-editorial">
-        {studio.equipe.map(({ nome: name, foto, funcao }, index) => (
-          <article className="team-person" key={name} data-reveal>
+        {studio.equipe.map(({ nome: name, foto, funcao, github }, index) => (
+          <a
+            className="team-person"
+            key={name}
+            data-reveal
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Ver GitHub de ${name} (abre em nova aba)`}
+          >
             <div
               className="team-portrait"
               aria-label={`Retrato de ${name} ainda não disponível`}
@@ -679,12 +668,17 @@ function Studio() {
               <span className="portrait-caption">FEITO A SEIS MÃOS.</span>
             </div>
             <div className="team-person-name">
-              <h3>{name}</h3>
+              <h3>
+                <InteractiveText text={name} />
+              </h3>
               <ArrowUpRight size={22} strokeWidth={1.25} />
             </div>
             <span className="team-role">{funcao || "Equipe Codik Design"}</span>
+            <span className="team-profile-link">
+              GitHub <ArrowUpRight size={13} aria-hidden="true" />
+            </span>
             {/* TODO: substituir a composição tipográfica pela foto real e informar a função de cada sócio. Nomes reais preservados de content.js. */}
-          </article>
+          </a>
         ))}
       </div>
     </section>
@@ -697,7 +691,7 @@ function ContactCTA() {
       <div data-reveal>
         <span className="section-label">VAMOS CRIAR ALGUMA COISA JUNTOS</span>
         <h2 id="cta-title">
-          Bora fazer algo
+          <InteractiveText text="Bora fazer algo" />
           <br />
           <em>fora do comum?</em>
         </h2>

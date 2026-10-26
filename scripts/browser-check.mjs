@@ -508,6 +508,43 @@ try {
       await evaluate('getComputedStyle(document.body).cursor==="none"'),
       "custom fine pointer",
     );
+    await evaluate(
+      'document.querySelectorAll("[data-reveal]").forEach(el=>el.classList.add("is-visible"))',
+    );
+    await delay(1000);
+    for (const selector of [
+      "#work-title",
+      "#tipos h2",
+      "#sobre h2",
+      "#processo h2",
+      "#faq h2",
+      "#cta-title",
+      "#contato h2",
+      ".work-row b",
+      ".type-panel h3",
+      ".team-person h3",
+    ]) {
+      await evaluate(
+        `document.querySelector(${JSON.stringify(selector)}).scrollIntoView({behavior:"instant",block:"center"})`,
+      );
+      await call("Input.dispatchMouseEvent", {
+        type: "mouseMoved",
+        x: 4,
+        y: 4,
+      });
+      await delay(250);
+      const point = await evaluate(
+        `(()=>{const r=document.querySelector(${JSON.stringify(selector + " [data-weight-letter]")}).getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()`,
+      );
+      await call("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
+      await delay(350);
+      assert(
+        await evaluate(
+          `Number(getComputedStyle(document.querySelector(${JSON.stringify(selector + " [data-weight-letter]")})).fontWeight)>400`,
+        ),
+        `pointer-sensitive text: ${selector}`,
+      );
+    }
   }
   assert(
     await evaluate('document.querySelectorAll(".work-entry").length===18'),
@@ -552,9 +589,47 @@ try {
       path.join(root, ".qa/redesign-work-hover.png"),
       Buffer.from(hoverShot.data, "base64"),
     );
+    const arrowPoint = await evaluate(
+      '(()=>{const r=document.querySelector(".row-arrow").getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()',
+    );
+    await call("Input.dispatchMouseEvent", {
+      type: "mouseMoved",
+      ...arrowPoint,
+    });
+    await delay(350);
+    assert(
+      await evaluate(
+        '(()=>{const card=document.querySelector(".work-hover-preview").getBoundingClientRect();const arrow=document.querySelector(".row-arrow").getBoundingClientRect();return card.right<arrow.left&&card.left>=15&&card.top>=15&&card.bottom<=innerHeight-15})()',
+      ),
+      "floating preview stays clear of navigation actions and viewport edges",
+    );
     await call("Input.dispatchMouseEvent", { type: "mouseMoved", x: 4, y: 4 });
   }
-  await click(".work-preview-button");
+  if (fine) {
+    const point = await evaluate(
+      '(()=>{const r=document.querySelector(".work-preview-button").getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()',
+    );
+    await call("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
+    await delay(300);
+    assert(
+      await evaluate(
+        '!document.querySelector(".work-hover-preview").classList.contains("is-on")',
+      ),
+      "floating preview hides over action buttons",
+    );
+    await call("Input.dispatchMouseEvent", {
+      type: "mousePressed",
+      button: "left",
+      clickCount: 1,
+      ...point,
+    });
+    await call("Input.dispatchMouseEvent", {
+      type: "mouseReleased",
+      button: "left",
+      clickCount: 1,
+      ...point,
+    });
+  } else await click(".work-preview-button");
   await delay(300);
   assert(
     await evaluate('document.querySelector(".site-preview-dialog").open'),
@@ -568,6 +643,28 @@ try {
     ),
     "mobile preview mode",
   );
+  for (const [width, height] of [
+    [1440, 480],
+    [844, 390],
+    [375, 560],
+    [375, 320],
+  ]) {
+    await viewport(width, height);
+    await delay(200);
+    assert(
+      await evaluate(
+        '(()=>{const dialog=document.querySelector(".site-preview-dialog").getBoundingClientRect();return [...document.querySelectorAll(".preview-footer a")].every(a=>{const r=a.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return r.left>=dialog.left&&r.right<=dialog.right&&r.top>=0&&r.bottom<=innerHeight&&hit?.closest("a")===a})})()',
+      ),
+      `preview page buttons remain visible and clickable at ${width}x${height}`,
+    );
+  }
+  const shortPreview = await call("Page.captureScreenshot", { format: "png" });
+  await writeFile(
+    path.join(root, ".qa/redesign-preview-short.png"),
+    Buffer.from(shortPreview.data, "base64"),
+  );
+  await viewport(1440, 1000);
+  await delay(150);
   await call("Input.dispatchKeyEvent", {
     type: "keyDown",
     key: "Escape",
@@ -616,6 +713,23 @@ try {
     ),
     "keyboard navigation of site types",
   );
+  if (fine) {
+    await evaluate(
+      'document.querySelector(".type-panel h3").scrollIntoView({behavior:"instant",block:"center"})',
+    );
+    await delay(100);
+    const point = await evaluate(
+      '(()=>{const r=document.querySelector(".type-panel h3 [data-weight-letter]").getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()',
+    );
+    await call("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
+    await delay(350);
+    assert(
+      await evaluate(
+        'Number(getComputedStyle(document.querySelector(".type-panel h3 [data-weight-letter]")).fontWeight)>400',
+      ),
+      "pointer effect follows dynamically replaced headings",
+    );
+  }
   const anchors = await evaluate(
     '[...document.querySelectorAll("a[href^=\\"#\\"]")].map(a=>a.getAttribute("href")).filter(h=>h.length>1&&!document.getElementById(h.slice(1)))',
   );
@@ -624,6 +738,24 @@ try {
     'document.querySelector("#sobre").scrollIntoView({behavior:"instant"})',
   );
   await delay(100);
+  const teamLinks = await evaluate(
+    '[...document.querySelectorAll("a.team-person")].map(a=>({name:a.querySelector("h3 .sr-only").textContent,href:a.href,blank:a.target==="_blank",safe:a.rel.includes("noopener")}))',
+  );
+  const expectedTeam = {
+    Isaías: "https://github.com/Is-Lucas",
+    Rodrigo: "https://github.com/Skyyyzz",
+    Nicolas: "https://github.com/niczinzx",
+  };
+  assert(
+    teamLinks.length === 3 &&
+      teamLinks.every(
+        (member) =>
+          member.href === expectedTeam[member.name] &&
+          member.blank &&
+          member.safe,
+      ),
+    "each full team card links to the correct GitHub profile",
+  );
   const teamShot = await call("Page.captureScreenshot", { format: "png" });
   await writeFile(
     path.join(root, ".qa/redesign-studio.png"),

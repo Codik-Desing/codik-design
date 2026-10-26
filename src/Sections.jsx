@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { studio, trabalhos, tiposDeSite } from "./content";
 import { safeStorage } from "./experience";
+import InteractiveText from "./InteractiveText";
 
 const qsModel = new URLSearchParams(window.location.search).get("modelo") || "";
 if (qsModel) safeStorage.set("modo3_modelo", qsModel);
@@ -20,7 +21,9 @@ export function SiteTypes() {
       <div className="shell">
         <div className="section-head" data-reveal>
           <span>01 / TIPOS DE SITE</span>
-          <h2>Qual é a sua ideia?</h2>
+          <h2>
+            <InteractiveText text="Qual é a sua ideia?" />
+          </h2>
         </div>
         <div
           className="type-tabs"
@@ -71,7 +74,9 @@ export function SiteTypes() {
         >
           <div>
             <p className="type-eyebrow">formato selecionado</p>
-            <h3>{current.nome}</h3>
+            <h3>
+              <InteractiveText text={current.nome} />
+            </h3>
             <p className="type-description">{current.descricao}</p>
           </div>
           <ul className="type-list">
@@ -113,13 +118,17 @@ export function Process() {
       <div className="shell">
         <div className="section-head" data-reveal>
           <span>04 / PROCESSO</span>
-          <h2>Do primeiro papo ao site no ar.</h2>
+          <h2>
+            <InteractiveText text="Do primeiro papo ao site no ar." />
+          </h2>
         </div>
         <div className="process-list">
           {steps.map(([n, t, d]) => (
             <article className="process-card" key={n} data-reveal>
               <span>{n}</span>
-              <h3>{t}</h3>
+              <h3>
+                <InteractiveText text={t} />
+              </h3>
               <p>{d}</p>
             </article>
           ))}
@@ -149,7 +158,9 @@ export function FAQ() {
       <div className="shell">
         <div className="section-head section-head-dark" data-reveal>
           <span>05 / DÚVIDAS</span>
-          <h2>Antes de chamar, talvez você queira saber...</h2>
+          <h2>
+            <InteractiveText text="Antes de chamar, talvez você queira saber..." />
+          </h2>
         </div>
         <div className="faq-list">
           {items.map(([q, a]) => (
@@ -292,7 +303,9 @@ export function Contact() {
       <div className="shell contact-grid" data-reveal>
         <div>
           <span className="section-mini light">06 / CONTATO</span>
-          <h2>Gostou do que viu? Bora conversar.</h2>
+          <h2>
+            <InteractiveText text="Gostou do que viu? Bora conversar." />
+          </h2>
           <p className="contact-copy">
             Preencha o formulário e conte um pouco sobre o seu projeto. Nós
             recebemos o pedido de orçamento e retornamos em seguida.

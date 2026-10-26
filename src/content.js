@@ -9,9 +9,24 @@ export const studio = {
   membros: ["Isaías", "Rodrigo", "Nicolas"],
   // TODO: informar fotos reais e funções aprovadas pelos três sócios.
   equipe: [
-    { nome: "Isaías", foto: null, funcao: null },
-    { nome: "Rodrigo", foto: null, funcao: null },
-    { nome: "Nicolas", foto: null, funcao: null },
+    {
+      nome: "Isaías",
+      foto: null,
+      funcao: null,
+      github: "https://github.com/Is-Lucas",
+    },
+    {
+      nome: "Rodrigo",
+      foto: null,
+      funcao: null,
+      github: "https://github.com/Skyyyzz",
+    },
+    {
+      nome: "Nicolas",
+      foto: null,
+      funcao: null,
+      github: "https://github.com/niczinzx",
+    },
   ],
 };
 

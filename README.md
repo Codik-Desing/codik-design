@@ -17,11 +17,11 @@ Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua
 
 - Bricolage Grotesque variável, Instrument Serif, composição editorial e acento laranja `#ff4a1c`.
 - Abertura de aproximadamente 3,9 segundos a cada carregamento ou recarregamento da página; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido. Links para seções mantêm o destino após a abertura.
-- Título sensível ao cursor, cursor personalizado e links magnéticos apenas com ponteiro fino. Posições das letras armazenadas e loop pausado quando estabiliza.
+- Títulos principais, nomes dos modelos e nomes da equipe sensíveis ao cursor, com quebra por palavras e leitura acessível. O efeito acompanha filtros e trocas de abas; o cursor personalizado e os links magnéticos funcionam apenas com ponteiro fino. Posições das letras armazenadas e loop pausado quando estabiliza.
 - Tema claro/escuro conforme o sistema, com escolha manual persistida quando o armazenamento está disponível.
-- Lista editorial das 18 demos, filtros, busca sem acentos, links reais e captura do site seguindo o cursor. Prévia interativa em desktop e celular.
+- Lista editorial das 18 demos, filtros, busca sem acentos, links reais e captura do site seguindo o cursor. O cartão flutuante respeita os limites da tela e a área das ações. A prévia interativa em desktop e celular reserva espaço para os botões, inclusive em telas baixas.
 - Confete com Web Animations API, relógio de São Paulo e faixa animada. Campos de formulário, seleção de texto e movimento reduzido não geram confete.
-- Seção dos três sócios com nomes reais e composições tipográficas provisórias até receber fotos e funções.
+- Cards dos três sócios clicáveis, abrindo seus perfis reais do GitHub em nova aba: Isaías (`Is-Lucas`), Rodrigo (`Skyyyzz`) e Nicolas (`niczinzx`). Composições tipográficas provisórias até receber fotos e funções.
 - Contatos, formulário Formspree, demos, favicon, título e descrição preservados. Nenhuma dependência nova.
 
 ### Arquivos do redesign
@@ -31,6 +31,7 @@ Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua
 | `src/main.jsx`              | Entrada React.                                                                                   |
 | `src/Redesign.jsx`          | Abertura, navegação, tema, título, trabalhos, prévias, equipe, chamada de contato e rodapé.      |
 | `src/experience.js`         | Armazenamento protegido, preferências, cursor, magnetismo, confete e seleção de modelo.          |
+| `src/InteractiveText.jsx` | Texto com letras interativas, largura reservada, quebra por palavras e alternativa acessível. |
 | `src/redesign.css`          | Tokens, temas, tipografia, layouts, animações e regras responsivas.                              |
 | `src/Sections.jsx`          | Conteúdos preservados de tipos de site, processo, FAQ e formulário; abas acessíveis por teclado. |
 | `src/content.js`            | Conteúdos reais, contatos, modelos e campos para fotos e funções da equipe.                      |
