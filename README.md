@@ -5,7 +5,7 @@ Site do estúdio de **Isaías, Rodrigo e Nicolas**. A coleção reúne **18 demo
 ## Usar no VS Code
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -13,7 +13,7 @@ Abra o link local mostrado no terminal. Teste no celular e no desktop.
 
 ## Redesign experimental
 
-Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua na branch `design-experimental`, preparada para este teste. A branch `versao-atual` preserva a versão anterior; o experimento não modifica a `main`.
+Portagem da referência `CODIK-REDESIGN.md` para React/Vite. A branch padrão é `design-experimental`. A branch `versao-atual` preserva a versão anterior.
 
 - Bricolage Grotesque variável, Instrument Serif, composição editorial e acento laranja `#ff4a1c`.
 - Abertura de aproximadamente 3,9 segundos a cada carregamento ou recarregamento da página; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido. Links para seções mantêm o destino após a abertura.
@@ -97,3 +97,16 @@ Os envios incluem nome, e-mail, WhatsApp, modelo e mensagem. Só ofereça aos de
 - Para **testar envio verdadeiro**, é obrigatório configurar um ID real do Formspree; sem ele não há salvamento.
 - A prévia `PREVIA.html` é uma visualização estática antiga e **não deve ser usada** para testar o redesign ou o formulário. Teste com `npm run dev` ou na Vercel.
 - As 18 páginas demo são conceitos demonstrativos; funcionalidades comerciais e integrações reais exigem personalização específica para cada cliente.
+
+
+## Segurança e organização
+
+- `src/`: componentes, conteúdo e estilos da aplicação.
+- `public/demos/`: conceitos demonstrativos e seus arquivos estáticos.
+- `scripts/`: geração das demos e ferramentas locais de revisão.
+- `vercel.json`: build e cabeçalhos de segurança da produção.
+- Variáveis com prefixo `VITE_` são públicas no navegador: nunca colocar senhas ou tokens nelas.
+- Arquivos `.env*` (exceto `.env.example`), chaves e a pasta `.vercel/` são ignorados pelo Git. Isso não remove arquivos já rastreados ou presentes no histórico.
+- Scripts da página e das demos usam arquivos locais; a política CSP não permite scripts inline ou `eval`.
+- Revise alterações e dependências antes de publicar: `npm ci`, `npm audit` e `npm run build`.
+- Conteúdo público continua protegido por direitos autorais; tornar o repositório público não adiciona uma licença de uso.
