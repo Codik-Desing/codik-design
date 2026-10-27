@@ -106,7 +106,7 @@ nav a:hover {
 
 .hero-image {
   margin: 40px 0 58px;
-  background: #d5c1bc url("assets/original-photo-1457089328109-e5d9bd499191.jpg") center/cover;
+  background: #d5c1bc url("../assets/original-photo-1457089328109-e5d9bd499191.jpg") center/cover;
   border-radius: 200px 200px 0 0;
   position: relative;
 }
@@ -193,7 +193,7 @@ nav a:hover {
 }
 
 .care-image {
-  background: url("assets/original-photo-1525310072745-f49212b5ac6d.jpg") center/cover;
+  background: url("../assets/original-photo-1525310072745-f49212b5ac6d.jpg") center/cover;
   min-height: 520px;
 }
 

@@ -68,7 +68,7 @@ nav a:last-child:hover {
   height: 94vh;
   background:
     linear-gradient(90deg, #181a15eb 4%, #171915bb 48%, #17191540 100%),
-    url("assets/original-photo-1534438327276-14e5300c3a48.jpg") center/cover;
+    url("../assets/original-photo-1534438327276-14e5300c3a48.jpg") center/cover;
   display: flex;
   align-items: center;
   padding: 135px 5% 65px;
@@ -185,7 +185,7 @@ nav a:last-child:hover {
 }
 
 .beyond>div:first-child {
-  background: #424b39 url("assets/original-photo-1571019613454-1cb2f99b2d8b.jpg") center/cover;
+  background: #424b39 url("../assets/original-photo-1571019613454-1cb2f99b2d8b.jpg") center/cover;
 }
 
 .beyond-copy {

@@ -82,7 +82,7 @@ nav a:hover {
   padding: 130px 6% 95px;
   background:
     linear-gradient(90deg, #1d100dec 0%, #201008aa 57%, #21100a48 100%),
-    url("assets/original-photo-1552566626-52f8b828add9.jpg") center/cover;
+    url("../assets/original-photo-1552566626-52f8b828add9.jpg") center/cover;
 }
 
 .hero-copy {
@@ -169,7 +169,7 @@ nav a:hover {
   height: 570px;
   margin: 0;
   overflow: hidden;
-  background: #533726 url("assets/original-photo-1517248135467-4c7edcad34c4.jpg") center/cover;
+  background: #533726 url("../assets/original-photo-1517248135467-4c7edcad34c4.jpg") center/cover;
 }
 
 .section-label {

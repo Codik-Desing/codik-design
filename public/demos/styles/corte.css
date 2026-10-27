@@ -76,7 +76,7 @@ nav a:hover {
   padding: 115px 5% 50px;
   background:
     linear-gradient(90deg, #10100ef2 0%, #10100ec9 44%, #10100e49 100%),
-    url("assets/original-photo-1599351431202-1e0f0137899a.jpg") center/cover;
+    url("../assets/original-photo-1599351431202-1e0f0137899a.jpg") center/cover;
 }
 
 .serial {
@@ -186,7 +186,7 @@ nav a:hover {
 }
 
 .team-image {
-  background: url("assets/original-photo-1621605815971-fbc98d665033.jpg") center/cover;
+  background: url("../assets/original-photo-1621605815971-fbc98d665033.jpg") center/cover;
   min-height: 480px;
 }
 
