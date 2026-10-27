@@ -17,7 +17,8 @@ Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua
 
 - Bricolage Grotesque variável, Instrument Serif, composição editorial e acento laranja `#ff4a1c`.
 - Abertura de aproximadamente 3,9 segundos a cada carregamento ou recarregamento da página; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido. Links para seções mantêm o destino após a abertura.
-- Títulos principais, nomes dos modelos e nomes da equipe sensíveis ao cursor, com quebra por palavras e leitura acessível. O efeito acompanha filtros e trocas de abas; o cursor personalizado e os links magnéticos funcionam apenas com ponteiro fino. Posições das letras armazenadas e loop pausado quando estabiliza.
+- Sensibilidade da fonte ao cursor somente no título de abertura da página e nos títulos principais das seções. Nomes dos modelos, nomes da equipe, títulos de etapas e títulos secundários das abas têm peso fixo. Quebra por palavras e leitura acessível preservadas; cursor personalizado e links magnéticos funcionam apenas com ponteiro fino. Posições das letras armazenadas e loop pausado quando estabiliza.
+- Na seção do estúdio, “Diferentes ideias.” e “O mesmo cuidado.” têm maior destaque. A animação consulta a posição da janela uma vez por quadro e compartilha pesos próximos da fonte em passos de 10, preservando a interpolação e evitando recálculos e variantes de fonte desnecessários.
 - Tema claro/escuro conforme o sistema, com escolha manual persistida quando o armazenamento está disponível.
 - Lista editorial das 18 demos, filtros, busca sem acentos, links reais e captura do site seguindo o cursor. O cartão flutuante respeita os limites da tela e a área das ações. A prévia interativa em desktop e celular reserva espaço para os botões, inclusive em telas baixas.
 - Confete com Web Animations API, relógio de São Paulo e faixa animada. Campos de formulário, seleção de texto e movimento reduzido não geram confete.
@@ -66,7 +67,9 @@ Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua
 | Comércio    | Flora     | Objeto, Cacau & Afeto     |
 | Tecnologia  | Pixelware | Orbit, Nexus Systems      |
 
-Os conteúdos dos novos modelos ficam em `src/demo-models.js`; o catálogo utiliza esses mesmos dados. `scripts/generate-demos.mjs` gera os HTMLs completos em `public/demos/`, com estrutura por segmento. Comportamentos e estilos ficam em `collection.js` e `collection.css`. Os HTMLs são regenerados automaticamente antes de `npm run build`.
+Os conteúdos dos novos modelos ficam em `src/demo-models.js`; o catálogo utiliza esses mesmos dados. `scripts/generate-demos.mjs` gera os HTMLs completos em `public/demos/`, com estrutura por segmento, e o CSS de cores de cada modelo em `public/demos/styles/` (`aurea.css`, `cacau.css` etc.). Os estilos compartilhados ficam em `styles/collection.css` e os comportamentos em `collection.js`. Os HTMLs e os CSSs de cores são regenerados automaticamente antes de `npm run build`; altere os dados no arquivo de origem, não nos arquivos gerados.
+
+Todos os CSSs das demos ficam em `public/demos/styles/`. As seis demos originais carregam `styles/demo-common.css` e seu CSS específico: `styles/brasa.css`, `styles/corte.css`, `styles/morada.css`, `styles/forma.css`, `styles/flora.css` e `styles/pixel.css`. Imagens referenciadas nesses CSSs usam caminhos relativos como `../assets/...`. A página React continua usando `src/redesign.css`; o fallback sem JavaScript usa `public/noscript.css` e a prévia antiga usa `PREVIA.css`. Blocos e atributos de CSS estático foram retirados dos HTMLs. Estilos calculados durante a execução, como escalas dos iframes, posições das partículas e índices de animação, continuam no JavaScript.
 
 ```bash
 npm run demos:generate
@@ -87,6 +90,26 @@ Reservas, agendamentos, compras e planos nas demos são simulações locais iden
 5. A publicação no domínio principal fica para depois da revisão e integração à branch de produção.
 
 Configurações: framework `Vite`, build `npm run build`, output `dist`. O projeto não possui scripts de lint ou uma suíte de testes de terceiros; a validação usa o build e o roteiro de navegador acima.
+
+## Performance e validação
+
+O catálogo da página principal usa `src/demo-catalog.js`, gerado a partir de `src/demo-models.js` pelo mesmo comando que gera as demos. Os conteúdos completos das marcas continuam em seus HTMLs, sem entrar no JavaScript da home.
+
+As fotos originais e capturas completas são preservadas. As demos usam WebP somente quando o arquivo é menor, com fallback JPEG. O cartão flutuante carrega miniaturas de 260/520 pixels apenas após o primeiro hover, com versões para telas de maior densidade.
+
+Após substituir fotos ou regenerar as capturas das demos, prepare os derivados antes de compilar:
+
+```bash
+npm run images:optimize
+npm run build
+npm run test:assets
+npm run test:browser
+npm run audit:performance -- after
+```
+
+`images:optimize` utiliza o Chrome instalado, sem dependências adicionais. Um manifesto registra dimensões e hashes para evitar reconversões. Os derivados e o manifesto devem acompanhar os arquivos originais no repositório; o build não depende do Chrome. Os testes de navegador e a auditoria local também utilizam Chrome (Windows e Node recente; o auditor aceita `CHROME_PATH`). Não enviam o formulário real. A auditoria salva métricas e capturas em `.qa/`, sem simular uma pontuação Lighthouse ou dados de usuários reais.
+
+Resultados, escopo e limitações estão em [PERFORMANCE-AUDIT.md](PERFORMANCE-AUDIT.md). A abertura, suas durações, fontes, blur e os demais efeitos visuais permanecem preservados.
 
 ## Privacidade
 
