@@ -5,6 +5,11 @@
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const money = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
   const escape = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+  const image = (key, alt, cls = '') => {
+    const meta = model.imageSizes[key];
+    const img = `<img class="${cls}" src="assets/${key}.jpg" alt="${escape(alt)}" width="${meta.width}" height="${meta.height}" decoding="async">`;
+    return meta.webp ? `<picture><source type="image/webp" srcset="assets/${key}.webp">${img}</picture>` : img;
+  };
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const isPreview = new URLSearchParams(location.search).has('preview');
   if (isPreview) {
@@ -115,7 +120,7 @@
   function showDetail(index) {
     const item = model.items[index];
     const content = $('[data-detail-content]');
-    content.innerHTML = `${item.image ? `<img class="detail-image" src="assets/${item.image}.jpg" alt="${escape(item.name)}">` : ''}<span class="eyebrow">${escape(item.group)} / CONCEITO DEMONSTRATIVO</span><h2>${escape(item.name)}</h2><p>${escape(item.desc)}</p>${item.detail ? `<p>${escape(item.detail)}</p>` : ''}${item.price ? `<b class="detail-price">${money(item.price)}</b>` : ''}${model.categoria === 'Comércio' ? '<button class="action" type="button" data-detail-add>Adicionar à sacola ↗</button>' : ''}`;
+    content.innerHTML = `${item.image ? image(item.image, item.name, 'detail-image') : ''}<span class="eyebrow">${escape(item.group)} / CONCEITO DEMONSTRATIVO</span><h2>${escape(item.name)}</h2><p>${escape(item.desc)}</p>${item.detail ? `<p>${escape(item.detail)}</p>` : ''}${item.price ? `<b class="detail-price">${money(item.price)}</b>` : ''}${model.categoria === 'Comércio' ? '<button class="action" type="button" data-detail-add>Adicionar à sacola ↗</button>' : ''}`;
     $('[data-detail-add]', content)?.addEventListener('click', () => { addItem(index); $('.detail-dialog').close(); });
     openDialog($('.detail-dialog'));
   }
@@ -133,7 +138,7 @@
     const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
     $('[data-cart-items]').innerHTML = entries.length ? entries.map(([id, qty]) => {
       const item = model.items[id];
-      return `<article class="cart-row"><img src="assets/${item.image}.jpg" alt="${escape(item.name)}"><div><h3>${escape(item.name)}</h3><span>${money(item.price)}</span><div class="cart-quantity"><button type="button" data-quantity="${id}" data-delta="-1" aria-label="Diminuir quantidade de ${escape(item.name)}">−</button><b>${qty}</b><button type="button" data-quantity="${id}" data-delta="1" aria-label="Aumentar quantidade de ${escape(item.name)}" ${qty >= 20 ? 'disabled' : ''}>+</button></div></div><b>${money(item.price * qty)}</b></article>`;
+      return `<article class="cart-row">${image(item.image, item.name)}<div><h3>${escape(item.name)}</h3><span>${money(item.price)}</span><div class="cart-quantity"><button type="button" data-quantity="${id}" data-delta="-1" aria-label="Diminuir quantidade de ${escape(item.name)}">−</button><b>${qty}</b><button type="button" data-quantity="${id}" data-delta="1" aria-label="Aumentar quantidade de ${escape(item.name)}" ${qty >= 20 ? 'disabled' : ''}>+</button></div></div><b>${money(item.price * qty)}</b></article>`;
     }).join('') : '<div class="cart-empty">Sua seleção está começando.<br>Explore a coleção e adicione um favorito.</div>';
     $('[data-cart-total]').textContent = money(entries.reduce((sum, [id, qty]) => sum + model.items[id].price * qty, 0));
     $('[data-cart-checkout]').disabled = !entries.length;

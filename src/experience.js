@@ -45,8 +45,8 @@ export function chooseModel(item) {
 
 export const demoUrl = (item) =>
   `${import.meta.env.BASE_URL.replace(/\/$/, "")}${item.demo}`;
-export const previewUrl = (item) =>
-  `${import.meta.env.BASE_URL}demos/previews/${item.slug}.jpg`;
+export const previewUrl = (item, width, format = "jpg") =>
+  `${import.meta.env.BASE_URL}demos/previews/${item.slug}${width ? `-${width}` : ""}.${format}`;
 
 // Event-driven animation: one RAF runs only while a pointer or letter is settling.
 // Letter centers are measured on layout changes, never on every animation frame.
@@ -60,6 +60,10 @@ export function usePointerExperience(scopeRef, enabled) {
       weights = [];
     let live = true;
     let positions = [];
+    // Document coordinates survive scrolling. Only nearby letters and those
+    // returning to their original weight need work on an animation frame.
+    let buckets = new Map();
+    const settling = new Set();
     let hoveredRow = null;
     let previewBounds = {
       left: 16,
@@ -76,6 +80,7 @@ export function usePointerExperience(scopeRef, enabled) {
       rotation = 0;
     let raf = 0,
       measureRaf = 0,
+      previewRaf = 0,
       inside = false;
     const measurePreview = () => {
       if (!hoveredRow?.isConnected) hoveredRow = null;
@@ -110,7 +115,14 @@ export function usePointerExperience(scopeRef, enabled) {
             y: r.top + r.height / 2 + scrollY,
           };
         });
+        buckets = new Map();
+        positions.forEach((center, index) => {
+          const key = Math.floor(center.y / 260);
+          if (!buckets.has(key)) buckets.set(key, []);
+          buckets.get(key).push(index);
+        });
         measurePreview();
+        wake();
       });
     };
     function step() {
@@ -155,7 +167,16 @@ export function usePointerExperience(scopeRef, enabled) {
         Math.min(innerHeight - 16 - height - padY, py - height / 2),
       );
       preview.style.transform = `translate3d(${left}px,${top}px,0) rotate(${tilt}deg)`;
-      letters.forEach((el, i) => {
+      const candidates = new Set(settling);
+      if (inside) {
+        const first = Math.floor((my + scrollY - 260) / 260);
+        const last = Math.floor((my + scrollY + 260) / 260);
+        for (let key = first; key <= last; key++) {
+          buckets.get(key)?.forEach((index) => candidates.add(index));
+        }
+      }
+      candidates.forEach((i) => {
+        const el = letters[i];
         const center = positions[i];
         const distance =
           center && inside
@@ -165,8 +186,9 @@ export function usePointerExperience(scopeRef, enabled) {
         if (Math.abs(target - weights[i]) > 0.5) {
           weights[i] += (target - weights[i]) * 0.18;
           el.style.fontWeight = Math.round(weights[i]);
+          settling.add(i);
           moving = true;
-        }
+        } else settling.delete(i);
       });
       raf = moving ? requestAnimationFrame(step) : 0;
     }
@@ -179,6 +201,10 @@ export function usePointerExperience(scopeRef, enabled) {
       );
       letters = [...root.querySelectorAll("[data-weight-letter]")];
       weights = letters.map((el) => previous.get(el) ?? 300);
+      settling.clear();
+      weights.forEach((weight, i) => {
+        if (weight > 300.5) settling.add(i);
+      });
       measure();
       wake();
     };
@@ -206,6 +232,15 @@ export function usePointerExperience(scopeRef, enabled) {
         !!event.target.closest('a,button,summary,select,[tabindex="0"]'),
       );
     const scroll = () => {
+      // Scrolling changes viewport bounds, not document-relative letter centers.
+      if (!previewRaf)
+        previewRaf = requestAnimationFrame(() => {
+          previewRaf = 0;
+          measurePreview();
+        });
+      wake();
+    };
+    const resize = () => {
       measure();
       wake();
     };
@@ -239,13 +274,14 @@ export function usePointerExperience(scopeRef, enabled) {
     document.documentElement.addEventListener("pointerleave", leave);
     window.addEventListener("blur", leave);
     window.addEventListener("scroll", scroll, { passive: true });
-    window.addEventListener("resize", scroll);
+    window.addEventListener("resize", resize);
     window.addEventListener("codik:intro-end", measure);
     root.addEventListener("transitionend", transitionEnd);
     return () => {
       live = false;
       cancelAnimationFrame(raf);
       cancelAnimationFrame(measureRaf);
+      cancelAnimationFrame(previewRaf);
       resizeObserver.disconnect();
       contentObserver.disconnect();
       preview.style.removeProperty("--preview-max-width");
@@ -257,7 +293,7 @@ export function usePointerExperience(scopeRef, enabled) {
       document.documentElement.removeEventListener("pointerleave", leave);
       window.removeEventListener("blur", leave);
       window.removeEventListener("scroll", scroll);
-      window.removeEventListener("resize", scroll);
+      window.removeEventListener("resize", resize);
       window.removeEventListener("codik:intro-end", measure);
       root.removeEventListener("transitionend", transitionEnd);
       letters.forEach((el) => {

@@ -1,4 +1,4 @@
-import { demoModels } from "./demo-models";
+import { demoCatalog } from "./demo-catalog";
 
 export const studio = {
   nome: "CODIK DESIGN",
@@ -163,7 +163,7 @@ export const trabalhos = [
     demo: "/demos/pixel.html",
     ano: "Modelo conceito",
   },
-  ...demoModels.map((item, index) => ({
+  ...demoCatalog.map((item, index) => ({
     ...item,
     num: String(index + 7).padStart(2, "0"),
     tipoLabel: tiposDeSite.find((type) => type.id === item.tipo).nome,

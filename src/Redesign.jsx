@@ -1,4 +1,5 @@
 import React, {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -734,6 +735,34 @@ function Footer() {
   );
 }
 
+// Hovering a model only updates the floating card, not the full page's text,
+// forms and catalog. State changes within these sections still render normally.
+const SiteContent = memo(function SiteContent({
+  active,
+  fine,
+  reduce,
+  onReplay,
+  onHover,
+}) {
+  return (
+    <div className="site-content" {...(active ? { inert: "" } : {})}>
+      <Header onReplay={onReplay} reduce={reduce} />
+      <main id="main-content">
+        <Hero />
+        <Marquee />
+        <WorkList onHover={onHover} fine={fine && !reduce} />
+        <SiteTypes />
+        <Studio />
+        <Process />
+        <FAQ />
+        <ContactCTA />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
+  );
+});
+
 export default function Redesign() {
   const scopeRef = useRef(null);
   const reduce = useMedia("(prefers-reduced-motion: reduce)");
@@ -741,20 +770,27 @@ export default function Redesign() {
   const [active, setActive] = useState(() => !reduce);
   const [ready, setReady] = useState(!active),
     [run, setRun] = useState(0),
-    [hover, setHover] = useState(null);
+    [hover, setHover] = useState(null),
+    [previewItem, setPreviewItem] = useState(null);
+  const onHover = useCallback((item) => {
+    setHover(item);
+    // Retain the last screenshot during its existing fade-out, and request
+    // nothing until a fine pointer actually opens a preview.
+    if (item) setPreviewItem(item);
+  }, []);
   const onReveal = useCallback(() => setReady(true), []);
   const onFinish = useCallback(() => {
     setActive(false);
     setReady(true);
     window.dispatchEvent(new Event("codik:intro-end"));
   }, []);
-  const onReplay = () => {
+  const onReplay = useCallback(() => {
     if (!reduce) {
       setReady(false);
       setActive(true);
       setRun((previous) => previous + 1);
     }
-  };
+  }, [reduce]);
   usePointerExperience(scopeRef, fine && !reduce && !active);
   useMagnetism(scopeRef, fine && !reduce && !active);
   useConfetti(scopeRef, !reduce && !active);
@@ -800,21 +836,13 @@ export default function Redesign() {
       <a className="skip-link" href="#main-content">
         Pular para o conteúdo
       </a>
-      <div className="site-content" {...(active ? { inert: "" } : {})}>
-        <Header onReplay={onReplay} reduce={reduce} />
-        <main id="main-content">
-          <Hero />
-          <Marquee />
-          <WorkList onHover={setHover} fine={fine && !reduce} />
-          <SiteTypes />
-          <Studio />
-          <Process />
-          <FAQ />
-          <ContactCTA />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
+      <SiteContent
+        active={active}
+        fine={fine}
+        reduce={reduce}
+        onReplay={onReplay}
+        onHover={onHover}
+      />
       <div className="custom-cursor" aria-hidden="true" />
       <div
         className={`work-hover-preview ${hover && fine && !reduce ? "is-on" : ""}`}
@@ -826,12 +854,22 @@ export default function Redesign() {
           <ArrowUpRight size={12} />
         </div>
         <div className="hover-preview-image">
-          <img
-            src={previewUrl(hover || trabalhos[0])}
-            width="1440"
-            height="3800"
-            alt=""
-          />
+          {previewItem && fine && !reduce && (
+            <picture>
+              <source
+                type="image/webp"
+                srcSet={`${previewUrl(previewItem, 260, "webp")} 1x, ${previewUrl(previewItem, 520, "webp")} 2x`}
+              />
+              <img
+                src={previewUrl(previewItem, 520)}
+                srcSet={`${previewUrl(previewItem, 260)} 1x, ${previewUrl(previewItem, 520)} 2x`}
+                width="1440"
+                height="3800"
+                decoding="async"
+                alt=""
+              />
+            </picture>
+          )}
         </div>
         <div className="hover-preview-caption">
           <b>{hover?.nome}</b>
