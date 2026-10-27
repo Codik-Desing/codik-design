@@ -126,6 +126,11 @@ export function usePointerExperience(scopeRef, enabled) {
       });
     };
     function step() {
+      // Read window geometry once, before writing styles. Reading scroll offsets
+      // between letter weight updates can force a separate layout per letter.
+      const offsetX = window.scrollX,
+        offsetY = window.scrollY,
+        viewportHeight = window.innerHeight;
       let moving =
         Math.abs(mx - cx) > 0.1 ||
         Math.abs(my - cy) > 0.1 ||
@@ -145,7 +150,7 @@ export function usePointerExperience(scopeRef, enabled) {
       // The rotated bounds count too; narrow or short screens use a flat card.
       if (
         width * Math.cos(angle) + height * Math.sin(angle) > right - minimum ||
-        height * Math.cos(angle) + width * Math.sin(angle) > innerHeight - 32
+        height * Math.cos(angle) + width * Math.sin(angle) > viewportHeight - 32
       ) {
         tilt = 0;
         angle = 0;
@@ -164,13 +169,13 @@ export function usePointerExperience(scopeRef, enabled) {
       );
       const top = Math.max(
         16 + padY,
-        Math.min(innerHeight - 16 - height - padY, py - height / 2),
+        Math.min(viewportHeight - 16 - height - padY, py - height / 2),
       );
       preview.style.transform = `translate3d(${left}px,${top}px,0) rotate(${tilt}deg)`;
       const candidates = new Set(settling);
       if (inside) {
-        const first = Math.floor((my + scrollY - 260) / 260);
-        const last = Math.floor((my + scrollY + 260) / 260);
+        const first = Math.floor((my + offsetY - 260) / 260);
+        const last = Math.floor((my + offsetY + 260) / 260);
         for (let key = first; key <= last; key++) {
           buckets.get(key)?.forEach((index) => candidates.add(index));
         }
@@ -180,12 +185,15 @@ export function usePointerExperience(scopeRef, enabled) {
         const center = positions[i];
         const distance =
           center && inside
-            ? Math.hypot(mx + scrollX - center.x, my + scrollY - center.y)
+            ? Math.hypot(mx + offsetX - center.x, my + offsetY - center.y)
             : 1000;
         const target = 300 + 500 * Math.max(0, 1 - distance / 260);
         if (Math.abs(target - weights[i]) > 0.5) {
           weights[i] += (target - weights[i]) * 0.18;
-          el.style.fontWeight = Math.round(weights[i]);
+          // Share nearby variable-font instances across letters. Keep the eased
+          // value, but avoid shaping a new font weight for every tiny change.
+          const weight = String(Math.round(weights[i] / 10) * 10);
+          if (el.style.fontWeight !== weight) el.style.fontWeight = weight;
           settling.add(i);
           moving = true;
         } else settling.delete(i);
