@@ -1,19 +1,19 @@
-# CODIK DESIGN — Redesign editorial interativo
+# CODIK DESIGN — Site oficial
 
 Site do estúdio de **Isaías, Rodrigo e Nicolas**. A coleção reúne **18 demos em seis segmentos**, com busca, filtros e capturas reais dos sites. O formulário de contato continua integrado ao Formspree.
 
 ## Usar no VS Code
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
 Abra o link local mostrado no terminal. Teste no celular e no desktop.
 
-## Redesign experimental
+## Versão oficial
 
-Portagem da referência `CODIK-REDESIGN.md` para React/Vite. O trabalho continua na branch `design-experimental`, preparada para este teste. A branch `versao-atual` preserva a versão anterior; o experimento não modifica a `main`.
+Implementação editorial interativa em React/Vite, baseada na referência `CODIK-REDESIGN.md`. A branch `main` contém a versão oficial. A branch `design-experimental` preserva o histórico do redesign e `versao-atual` preserva a versão anterior. A branch exibida por padrão no GitHub é uma configuração do repositório, independente do nome da branch de trabalho.
 
 - Bricolage Grotesque variável, Instrument Serif, composição editorial e acento laranja `#ff4a1c`.
 - Abertura de aproximadamente 3,9 segundos a cada carregamento ou recarregamento da página; clique ou Escape para pular, botão para repetir e desativação com movimento reduzido. Links para seções mantêm o destino após a abertura.
@@ -81,13 +81,13 @@ O último comando usa o Google Chrome instalado no Windows, inicia uma prévia t
 
 Reservas, agendamentos, compras e planos nas demos são simulações locais identificadas na interface. Nenhum pagamento ou solicitação é enviado pelas marcas fictícias. O contato real continua na página principal da Codik.
 
-## Testar a versão na Vercel
+## Validação e publicação na Vercel
 
-1. Trabalhe na branch `design-experimental`.
-2. Confira os contatos em `src/content.js` e execute `npm run build`.
-3. Envie os commits dessa branch ao GitHub.
-4. Se o repositório estiver conectado à Vercel com previews habilitados, use a URL de preview da branch para revisar o redesign.
-5. A publicação no domínio principal fica para depois da revisão e integração à branch de produção.
+1. Faça novas alterações em uma branch de trabalho e confira os contatos em `src/content.js`.
+2. Execute `npm run build`, `npm run test:assets` e os testes de navegador disponíveis.
+3. Revise a versão de preview, quando a integração do repositório com a Vercel estiver habilitada.
+4. Integre a versão aprovada à `main`, preservando os commits existentes.
+5. Configure `main` como Production Branch na Vercel para que seus pushes publiquem o domínio oficial. Essa configuração é externa ao Git; um push para `main` sozinho não comprova que o domínio foi atualizado.
 
 Configurações: framework `Vite`, build `npm run build`, output `dist`. O projeto não possui scripts de lint ou uma suíte de testes de terceiros; a validação usa o build e o roteiro de navegador acima.
 
@@ -120,3 +120,16 @@ Os envios incluem nome, e-mail, WhatsApp, modelo e mensagem. Só ofereça aos de
 - Para **testar envio verdadeiro**, é obrigatório configurar um ID real do Formspree; sem ele não há salvamento.
 - A prévia `PREVIA.html` é uma visualização estática antiga e **não deve ser usada** para testar o redesign ou o formulário. Teste com `npm run dev` ou na Vercel.
 - As 18 páginas demo são conceitos demonstrativos; funcionalidades comerciais e integrações reais exigem personalização específica para cada cliente.
+
+
+## Segurança e organização
+
+- `src/`: componentes, conteúdo e estilos da aplicação.
+- `public/demos/`: conceitos demonstrativos e seus arquivos estáticos.
+- `scripts/`: geração das demos e ferramentas locais de revisão.
+- `vercel.json`: build e cabeçalhos de segurança da produção.
+- Variáveis com prefixo `VITE_` são públicas no navegador: nunca colocar senhas ou tokens nelas.
+- Arquivos `.env*` (exceto `.env.example`), chaves e a pasta `.vercel/` são ignorados pelo Git. Isso não remove arquivos já rastreados ou presentes no histórico.
+- Scripts da página e das demos usam arquivos locais; a política CSP não permite scripts inline ou `eval`.
+- Revise alterações e dependências antes de publicar: `npm ci`, `npm audit` e `npm run build`.
+- Conteúdo público continua protegido por direitos autorais; tornar o repositório público não adiciona uma licença de uso.

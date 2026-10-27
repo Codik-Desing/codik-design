@@ -96,53 +96,8 @@
     </div>
     <a href="../../?modelo=flora#contato">Quero um site assim ↗</a>
   </aside>
-  <script>
-    document.querySelectorAll('a[href*="?modelo="]').forEach(function (a) {
-      a.addEventListener("click", function () {
-        var match = this.getAttribute("href").match(/(?:^|[?&])modelo=([^&#]+)/);
-        if (match && match[1]) {
-          sessionStorage.setItem("modo3_modelo", decodeURIComponent(match[1]));
-        }
-      });
-    });
-    if (location.protocol === "file:") {
-      document
-        .querySelectorAll('a[href^="../../?modelo="]')
-        .forEach(
-          (a) =>
-          (a.href = a
-            .getAttribute("href")
-            .replace("../../?modelo=", "../../PREVIA.html?modelo=")),
-        );
-    }
-  </script>
-  <script>
-    (function () {
-      if (
-        !("IntersectionObserver" in window) ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      )
-        return;
-      var parts = document.querySelectorAll(
-        "main>section:not(:first-child),main>div:not(:first-child)",
-      );
-      document.body.classList.add("demo-motion");
-      var o = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              e.target.classList.add("demo-seen");
-              o.unobserve(e.target);
-            }
-          });
-        },
-        { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
-      );
-      parts.forEach(function (el) {
-        o.observe(el);
-      });
-    })();
-  </script>
+  <script src="flora-inline-1.js"></script>
+  <script src="flora-inline-2.js"></script>
 <script src="demo-preview.js"></script>
 </body>
 
