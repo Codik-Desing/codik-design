@@ -990,6 +990,12 @@ em {
   color: var(--ac);
   font-size: 1.09em;
 }
+.studio-section h2 > .studio-title-emphasis {
+  font-size: 1.2em;
+}
+.studio-section h2 > em.studio-title-emphasis {
+  font-size: 1.3em;
+}
 .studio-copy {
   padding-top: 45px;
   max-width: 490px;

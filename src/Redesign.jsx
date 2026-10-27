@@ -623,9 +623,11 @@ function Studio() {
           <h2>
             <InteractiveText text="Três devs." />
             <br />
-            <InteractiveText text="Diferentes ideias." />
+            <span className="studio-title-emphasis">
+              <InteractiveText text="Diferentes ideias." />
+            </span>
             <br />
-            <em>O mesmo cuidado.</em>
+            <em className="studio-title-emphasis">O mesmo cuidado.</em>
           </h2>
         </div>
         <div className="studio-copy">
