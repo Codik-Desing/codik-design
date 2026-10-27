@@ -75,7 +75,7 @@ export function SiteTypes() {
           <div>
             <p className="type-eyebrow">formato selecionado</p>
             <h3>
-              <InteractiveText text={current.nome} />
+              <InteractiveText text={current.nome} interactive={false} />
             </h3>
             <p className="type-description">{current.descricao}</p>
           </div>
@@ -127,7 +127,7 @@ export function Process() {
             <article className="process-card" key={n} data-reveal>
               <span>{n}</span>
               <h3>
-                <InteractiveText text={t} />
+                <InteractiveText text={t} interactive={false} />
               </h3>
               <p>{d}</p>
             </article>

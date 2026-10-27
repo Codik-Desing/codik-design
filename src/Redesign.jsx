@@ -550,7 +550,7 @@ function WorkList({ onHover, fine }) {
             >
               <span className="work-number">{item.num}</span>
               <b>
-                <InteractiveText text={item.nome} />
+                <InteractiveText text={item.nome} interactive={false} />
                 <small>{item.tipoLabel}</small>
               </b>
               <i>{item.categoria}</i>
@@ -670,7 +670,7 @@ function Studio() {
             </div>
             <div className="team-person-name">
               <h3>
-                <InteractiveText text={name} />
+                <InteractiveText text={name} interactive={false} />
               </h3>
               <ArrowUpRight size={22} strokeWidth={1.25} />
             </div>
