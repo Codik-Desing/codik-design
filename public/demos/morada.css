@@ -1,0 +1,273 @@
+picture { display: contents; }
+body {
+  background: #f4f1eb;
+  color: #262c27;
+  font-family: "DM Sans", sans-serif;
+}
+
+header {
+  height: 94px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(244, 241, 235, 0.42);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(38, 44, 39, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: background 0.35s ease, border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.logo {
+  font: 400 48px "Instrument Serif";
+}
+
+nav {
+  display: flex;
+  gap: 38px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+nav a {
+  transition: color 0.3s ease, text-decoration-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  min-height: 660px;
+  height: 80vh;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  padding: 0 6% 60px;
+  gap: 50px;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding-bottom: 55px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  font: 400 clamp(85px, 9.3vw, 151px)/0.84 "Instrument Serif";
+  letter-spacing: -3px;
+  margin: 30px 0;
+}
+
+.hero h1 i {
+  margin-left: 30px;
+}
+
+.hero-copy p {
+  max-width: 305px;
+  line-height: 1.9;
+  font-size: 14px;
+  color: #777970;
+}
+
+.hero-photo {
+  background: #b0aaa0 url("assets/original-photo-1600210492486-724fe5c67fb0.jpg") center/cover;
+  position: relative;
+}
+
+.hero-photo span {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 9px #000;
+}
+
+.line {
+  margin: 0 6%;
+  border-top: 1px solid #b9b9ae;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 1.2px;
+  font-size: 10px;
+}
+
+.statement {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 150px 6%;
+}
+
+.statement h2 {
+  font: 400 clamp(53px, 6vw, 92px)/1.03 "Instrument Serif";
+  margin-top: 36px;
+}
+
+.statement h2 em {
+  color: #988d7c;
+}
+
+.projects {
+  padding: 0 6% 130px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  border-bottom: 1px solid #b9b9ae;
+  padding-bottom: 23px;
+}
+
+.project-header h2 {
+  font: 400 clamp(48px, 5vw, 75px) "Instrument Serif";
+  margin: 0;
+}
+
+.project-header span {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 26px;
+  padding-top: 26px;
+}
+
+.gallery figure {
+  margin: 0;
+}
+
+.gallery img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  background: #d0c9bb;
+}
+
+.gallery figure:last-child img {
+  height: 390px;
+}
+
+.gallery figcaption {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding-top: 16px;
+}
+
+.contact {
+  background: #d2cabb;
+  padding: 110px 6% 145px;
+  text-align: center;
+}
+
+.contact h2 {
+  font: 400 clamp(64px, 8vw, 115px)/0.95 "Instrument Serif";
+  max-width: 900px;
+  margin: 18px auto 30px;
+}
+
+.contact a {
+  display: inline-flex;
+  border-bottom: 1px solid #242620;
+  padding-bottom: 9px;
+  font-size: 12px;
+  gap: 30px;
+}
+
+footer {
+  padding: 30px 6% 105px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 750px) {
+  header {
+    height: 80px;
+  }
+
+  nav {
+    gap: 15px;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0;
+    height: auto;
+    padding: 0 5% 60px;
+  }
+
+  .hero-photo {
+    height: 390px;
+  }
+
+  .hero-copy {
+    padding: 50px 0 0;
+  }
+
+  .hero h1 {
+    font-size: 98px;
+    margin: 12px 0;
+  }
+
+  .statement {
+    padding: 85px 5%;
+  }
+
+  .projects {
+    padding: 0 5% 70px;
+  }
+
+  .gallery {
+    display: block;
+  }
+
+  .gallery figure {
+    margin-bottom: 35px;
+  }
+
+  .gallery img,
+  .gallery figure:last-child img {
+    height: 300px;
+  }
+
+  .contact {
+    padding: 80px 6% 120px;
+  }
+}
+
+@media (max-width: 430px) {
+  nav a:not(:last-child) {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 77px;
+  }
+
+  .hero-photo {
+    height: 300px;
+  }
+}

@@ -56,3 +56,8 @@ html[data-capture] *{animation:none!important;transition:none!important}html[dat
 
 /* Sources preserve the image as the layout box and direct visual target. */
 picture{display:contents}
+
+/* Static material swatches match the values used by the model controls. */
+.material-buttons [data-material="#c6b99b"] i{background:#c6b99b}
+.material-buttons [data-material="#9c6951"] i{background:#9c6951}
+.material-buttons [data-material="#818b7f"] i{background:#818b7f}

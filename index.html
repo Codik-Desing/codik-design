@@ -29,15 +29,9 @@
   </head>
   <body>
     <div id="root"></div>
-    <noscript
-      ><div
-        style="
-          padding: 2rem;
-          font-family: system-ui;
-          background: #f4f0e9;
-          color: #141414;
-        "
-      >
+    <noscript>
+      <link rel="stylesheet" href="/noscript.css" />
+      <div class="noscript-fallback">
         <h1>CODIK DESIGN</h1>
         <p>
           Estúdio independente de design e desenvolvimento web, em São Paulo.
@@ -49,8 +43,8 @@
           <a href="/demos/orbit.html">Orbit</a>.
         </p>
         <a href="mailto:codikdev@gmail.com">codikdev@gmail.com</a>
-      </div></noscript
-    >
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -271,6 +271,15 @@ em {
   display: block;
   transition: transform 1.1s cubic-bezier(0.2, 0.9, 0.1, 1) var(--delay, 0s);
 }
+.hero-line:nth-child(1) > span {
+  --delay: 0.2s;
+}
+.hero-line:nth-child(2) > span {
+  --delay: 0.3s;
+}
+.hero-line:nth-child(3) > span {
+  --delay: 0.4s;
+}
 .hero-waiting .hero-line > span {
   transform: translateY(115%);
 }

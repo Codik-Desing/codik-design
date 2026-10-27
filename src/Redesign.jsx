@@ -226,19 +226,19 @@ function Hero() {
       <div className="hero-main">
         <h1 id="hero-title" aria-label="Sites que ninguém esquece.">
           <span className="hero-line" aria-hidden="true">
-            <span style={{ "--delay": ".2s" }}>
+            <span>
               <SplitWord text="Sites que" />
             </span>
           </span>
           <span className="hero-line serif-line" aria-hidden="true">
-            <span style={{ "--delay": ".3s" }}>
+            <span>
               <em>
                 <SplitWord text="ninguém" interactive={false} />
               </em>
             </span>
           </span>
           <span className="hero-line" aria-hidden="true">
-            <span style={{ "--delay": ".4s" }}>
+            <span>
               <SplitWord text="esquece." />
             </span>
           </span>
