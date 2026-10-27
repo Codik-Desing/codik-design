@@ -205,6 +205,10 @@ try {
     assert(stats.h1 === 1, "expected one h1");
     assert(!stats.images.length, `broken images: ${stats.images.join(", ")}`);
     assert(!stats.overflow, "desktop horizontal overflow");
+    if (slug === "miso") assert(
+      await evaluate('(()=>{const r=document.querySelector(".miso-art img").getBoundingClientRect();return Math.abs(r.width-r.height)<1})()'),
+      "hero photo preserves its circular crop",
+    );
     await screenshot(slug, true);
     if (demoModels.some((m) => m.slug === slug)) {
       if (await evaluate('!!document.querySelector("[data-filter]")')) {
@@ -492,6 +496,14 @@ try {
   const fine = await evaluate(
     'matchMedia("(hover:hover) and (pointer:fine)").matches',
   );
+  assert(
+    await evaluate('[...document.querySelectorAll("[data-weight-letter]")].every(el=>el.closest("h1,h2")) && !document.querySelector(".work-list [data-weight-letter]")'),
+    "font sensitivity is restricted to main headings, never model names or secondary text",
+  );
+  assert(
+    await evaluate('!performance.getEntriesByType("resource").some(r=>r.name.includes("/demos/previews/"))'),
+    "no hidden screenshot requested before hovering a model",
+  );
   if (fine) {
     const position = await evaluate(
       '(()=>{const r=document.querySelector("[data-weight-letter]").getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})()',
@@ -520,9 +532,6 @@ try {
       "#faq h2",
       "#cta-title",
       "#contato h2",
-      ".work-row b",
-      ".type-panel h3",
-      ".team-person h3",
     ]) {
       await evaluate(
         `document.querySelector(${JSON.stringify(selector)}).scrollIntoView({behavior:"instant",block:"center"})`,
@@ -580,10 +589,20 @@ try {
     await delay(250);
     assert(
       await evaluate(
-        'document.querySelector(".work-hover-preview").classList.contains("is-on") && document.querySelector(".work-hover-preview img").src.includes("brasa.jpg")',
+        'document.querySelector(".work-hover-preview").classList.contains("is-on") && /brasa-(260|520)\\.(jpg|webp)$/.test(document.querySelector(".work-hover-preview img").currentSrc)',
       ),
       "floating preview uses real screenshot",
     );
+    assert(
+      await evaluate('document.querySelector(".work-hover-preview img").decode().then(()=>document.querySelector(".work-hover-preview img").naturalWidth<=520)'),
+      "floating preview loads a thumbnail",
+    );
+    await evaluate('document.querySelector(".work-hover-preview source").media="not all";document.querySelector(".work-hover-preview img").decode()');
+    assert(
+      await evaluate('document.querySelector(".work-hover-preview img").currentSrc.endsWith(".jpg")'),
+      "thumbnail JPEG fallback works",
+    );
+    await evaluate('document.querySelector(".work-hover-preview source").media="";document.querySelector(".work-hover-preview img").decode()');
     const hoverShot = await call("Page.captureScreenshot", { format: "png" });
     await writeFile(
       path.join(root, ".qa/redesign-work-hover.png"),
@@ -719,15 +738,15 @@ try {
     );
     await delay(100);
     const point = await evaluate(
-      '(()=>{const r=document.querySelector(".type-panel h3 [data-weight-letter]").getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()',
+      '(()=>{const r=document.querySelector(".type-panel h3").getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()',
     );
     await call("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
     await delay(350);
     assert(
       await evaluate(
-        'Number(getComputedStyle(document.querySelector(".type-panel h3 [data-weight-letter]")).fontWeight)>400',
+        '!document.querySelector(".type-panel h3 [data-weight-letter]") && [...document.querySelectorAll("[data-weight-letter]")].every(el=>el.closest("h1,h2"))',
       ),
-      "pointer effect follows dynamically replaced headings",
+      "secondary headings stay static after switching tabs",
     );
   }
   const anchors = await evaluate(

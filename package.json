@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "demos:generate": "node scripts/generate-demos.mjs",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "test:browser": "node scripts/browser-check.mjs --no-captures",
+    "test:assets": "node scripts/check-assets.mjs",
+    "audit:performance": "node scripts/performance-check.mjs",
     "prebuild": "npm run demos:generate",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0",
-    "images:optimize": "node scripts/optimize-images.mjs"
+    "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
