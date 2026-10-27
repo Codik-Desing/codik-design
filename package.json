@@ -8,7 +8,8 @@
     "demos:generate": "node scripts/generate-demos.mjs",
     "prebuild": "npm run demos:generate",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "images:optimize": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
