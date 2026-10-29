@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { openCookieSettings } from "./CookieBanner";
 
 export default function Privacy() {
