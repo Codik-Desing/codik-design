@@ -1,5 +1,8 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { demoModels } from '../src/demo-models.js';
+
+// The demos share the existing Codik favicon; prepare the legacy filename at build time.
+await copyFile(new URL('../public/codik-favicon.png', import.meta.url), new URL('../public/codik-icon.png', import.meta.url));
 
 const root = new URL('../public/demos/', import.meta.url);
 await mkdir(root, { recursive: true });
@@ -120,3 +123,4 @@ for (const m of demoModels) {
   await writeFile(new URL(`${m.slug}.html`, root), html, 'utf8');
 }
 console.log(`${demoModels.length} demos geradas em public/demos.`);
+
