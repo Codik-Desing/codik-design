@@ -8,6 +8,7 @@
     "demos:generate": "node scripts/generate-demos.mjs",
     "images:optimize": "node scripts/optimize-images.mjs",
     "test:browser": "node scripts/browser-check.mjs --no-captures",
+    "test:contact": "node scripts/contact-check.mjs",
     "test:assets": "node scripts/check-assets.mjs",
     "audit:performance": "node scripts/performance-check.mjs",
     "prebuild": "npm run demos:generate",
