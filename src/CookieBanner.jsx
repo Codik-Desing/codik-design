@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./cookie-banner.css";
 
 // ID publico do GA4 (ex.: G-XXXXXXXXXX), definido em VITE_GA_ID.
