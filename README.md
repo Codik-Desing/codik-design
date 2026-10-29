@@ -133,3 +133,13 @@ Os envios incluem nome, e-mail, WhatsApp, modelo e mensagem. Só ofereça aos de
 - Scripts da página e das demos usam arquivos locais; a política CSP não permite scripts inline ou `eval`.
 - Revise alterações e dependências antes de publicar: `npm ci`, `npm audit` e `npm run build`.
 - Conteúdo público continua protegido por direitos autorais; tornar o repositório público não adiciona uma licença de uso.
+
+## Cookies e Analytics
+
+O banner permite aceitar, recusar e rever a escolha no rodapé. O Google Analytics só é carregado após consentimento válido e com `VITE_GA_ID=G-...` configurado na Vercel. Sem ID, as preferências continuam disponíveis, mas nenhum script de medição é carregado. A escolha é renovada após 180 dias; armazenamento bloqueado usa memória da página. A retirada do aceite desativa a medição e remove cookies `_ga` do domínio e seus pais. Abas abertas sincronizam a escolha pelo evento de armazenamento.
+
+A página `/privacidade` descreve os contatos, os provedores e o pedido de exclusão por codikdev@gmail.com. A equipe deve aplicar a retenção descrita aos contatos e manter essa política alinhada às configurações reais dos provedores. O formulário tem um link para a política, independente do consentimento de análise.
+
+Depois de criar a propriedade GA4, configure o fluxo Web sem coleta automática de formulários e sem dados fornecidos pelos usuários. Não adicione outras tags que contornem o banner. Configure `VITE_GA_ID` em Production e Preview e faça novo deploy. Valide em sessão limpa: antes do aceite e após recusa, nenhuma requisição ao Google Analytics; após aceite, carregamento da tag e visita no relatório de tempo real; após retirada, nenhuma nova medição. O ID de medição é público e não deve conter credenciais.
+
+Verificação da lógica de consentimento: `node scripts/cookie-check.mjs`.

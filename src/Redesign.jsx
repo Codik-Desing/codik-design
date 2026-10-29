@@ -30,6 +30,8 @@ import {
   usePointerExperience,
 } from "./experience";
 
+import CookieBanner, { openCookieSettings } from "./CookieBanner";
+
 function Intro({ active, run, onReveal, onFinish, reduce }) {
   const [phase, setPhase] = useState("enter");
   const [count, setCount] = useState(0);
@@ -730,6 +732,8 @@ function Footer() {
       <a href={`mailto:${studio.email}`}>
         {studio.email} <ArrowUpRight size={14} />
       </a>
+      <a href="/privacidade">Política de privacidade</a>
+      <button type="button" className="cookie-settings" onClick={openCookieSettings}>Preferências de cookies</button>
       <a href="#inicio" className="footer-top">
         Voltar ao topo ↑
       </a>
@@ -878,6 +882,7 @@ export default function Redesign() {
           <span>{hover?.tipoLabel}</span>
         </div>
       </div>
+      <CookieBanner />
       <Intro
         active={active}
         run={run}
