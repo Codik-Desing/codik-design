@@ -516,7 +516,7 @@ export default function Contact() {
               />
               <span>
                 Autorizo a CODIK DESIGN a usar meus dados para responder a este
-                pedido de orçamento.
+                pedido de orçamento. Consulte a <a href="/privacidade">política de privacidade</a>.
               </span>
             </label>
             <p
